@@ -1,1 +1,3 @@
-document.addEventListener("DOMContentLoaded",()=>{console.log("ccdonuts loaded")});
+document.addEventListener("DOMContentLoaded", () => {
+	console.log("ccdonuts loaded");
+});
