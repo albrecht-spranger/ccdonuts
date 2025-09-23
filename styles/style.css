@@ -1,0 +1,10 @@
+/* basic styles */
+body{font-family:system-ui,Arial,sans-serif;margin:0;padding:0}
+header,footer{padding:16px}
+nav ul{list-style:none;display:flex;gap:12px;padding:0}
+.container{max-width:960px;margin:0 auto;padding:16px}
+.product{border:1px solid #ddd;border-radius:8px;padding:12px;margin-bottom:12px}
+.badge{display:inline-block;padding:2px 6px;border:1px solid #000;border-radius:4px;font-size:.8rem}
+.cart-table{width:100%;border-collapse:collapse}
+.cart-table th,.cart-table td{border:1px solid #ddd;padding:8px;text-align:left}
+.total{font-weight:bold;text-align:right}
