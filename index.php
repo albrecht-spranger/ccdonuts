@@ -15,7 +15,7 @@ require "header.php";
 		<p class="featureCaption">サマーシトラス</p>
 	</div>
 	<div class="featureItem">
-		<img src="images/feature2.jpg" alt="ドーナツのある生活">
+		<img src="images/lifeWithDonuts.jpg" alt="ドーナツのある生活">
 		<p class="featureCaption">ドーナツのある生活</p>
 	</div>
 	<div class="featureItem linkAll">
