@@ -11,7 +11,7 @@ require "header.php";
 <section class="featureBlocks">
 	<div class="featureItem">
 		<div class="featureBadge">新商品</div>
-		<img src="images/feature1.jpg" alt="新商品の画像">
+		<img src="images/summerCitras.jpg" alt="新商品の画像">
 		<p class="featureCaption">サマーシトラス</p>
 	</div>
 	<div class="featureItem">
@@ -19,7 +19,7 @@ require "header.php";
 		<p class="featureCaption">ドーナツのある生活</p>
 	</div>
 	<div class="featureItem linkAll">
-		<img src="images/feature3.jpg" alt="商品一覧">
+		<img src="images/productBanner.jpg" alt="商品一覧">
 		<p class="featureCaption">商品一覧</p>
 	</div>
 </section>
