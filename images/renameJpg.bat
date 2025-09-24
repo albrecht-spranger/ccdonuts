@@ -1,0 +1,8 @@
+ren "クリームボックス(9個入り).jpg" "creamBox9pcs.jpg"
+ren "ストロベリークラッシュ.jpg" "strawberryCrush.jpg"
+ren "チョコレートクラッシュボックス.jpg" "chocolateCrushBox.jpg"
+ren "チョコレートデライト.jpg" "chocolateDelight.jpg"
+ren "フルーツドーナツセット.jpg" "fruitDonutSet.jpg"
+ren "フルーツドーナツ詰め合わせ.jpg" "fruitDonutAssortment.jpg"
+ren "プレーンクラシック.jpg" "plainClassic.jpg"
+ren "ベストセレクションボックス.jpg" "bestSelectionBox.jpg"
