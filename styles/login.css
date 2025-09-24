@@ -1,0 +1,114 @@
+/* ===== Auth 共通 ===== */
+.authPage {
+    padding: 24px 16px 72px;
+}
+
+.authPage .breadcrumb {
+    font-size: .9rem;
+    margin-bottom: 8px;
+}
+
+.authPage .breadcrumb .sep {
+    margin: 0 .4em;
+}
+
+.authPage .pageTitle {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 10px 0 16px;
+}
+
+.authPage .greeting {
+    margin: 6px 0 10px;
+}
+
+/* ログインフォーム */
+.authForm {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.authForm .formRow {
+    display: grid;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.authForm label {
+    font-weight: 700;
+}
+
+.authForm input[type="email"],
+.authForm input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.authForm .formActions {
+    text-align: center;
+    margin-top: 8px;
+}
+
+.btnPrimary,
+.btnSecondary {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btnPrimary {
+    background: #111;
+    color: #fff;
+    border: 1px solid #111;
+}
+
+.btnPrimary:hover {
+    opacity: .9;
+}
+
+.btnSecondary {
+    background: #fff;
+    color: #111;
+    border: 1px solid #ccc;
+}
+
+.btnSecondary:hover {
+    background: #f7f7f7;
+}
+
+.authForm .subLink {
+    text-align: center;
+    margin-top: 14px;
+}
+
+/* ログイン完了 */
+.loginDoneMessage {
+    font-weight: 800;
+    font-size: 1.2rem;
+    margin: 4px 0 8px;
+}
+
+.loginDoneLead {
+    font-size: 1.1rem;
+    margin: 0 0 6px;
+}
+
+.loginDoneSub {
+    margin: 0 0 16px;
+}
+
+.doneActions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}

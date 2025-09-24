@@ -1,71 +1,148 @@
 <?php
-require_once __DIR__ . "/app/commonFunctions.php";
-require_once __DIR__ . "/app/sessionManager.php";
-require_once __DIR__ . "/app/dbConnect.php";
-$pageTitle = "CC Donuts | カート";
-require "header.php";
+// /cart.php
+declare(strict_types=1);
 
-$db = getDbConnection();
-$cart = $_SESSION["cart"];
-$items = [];
-$total = 0;
+require_once __DIR__ . '/app/sessionManager.php';
+require_once __DIR__ . '/app/commonFunctions.php';
+require_once __DIR__ . '/app/cartLib.php';
 
-if (!empty($cart)) {
-	$ids = implode(",", array_map("intval", array_keys($cart)));
-	$stmt = $db->query("SELECT id, name, price FROM products WHERE id IN ($ids)");
-	$map = [];
-	foreach ($stmt as $row) {
-		$map[$row["id"]] = $row;
+$pageTitle = 'カート | CC Donuts';
+
+// ---- アクション処理 ----
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+$action = $_REQUEST['action'] ?? '';
+
+if ($method === 'POST') {
+	// CSRF
+	if (empty($_POST['csrfToken']) || !hash_equals($_SESSION['csrfToken'] ?? '', (string)$_POST['csrfToken'])) {
+		set_flash('error', '不正なリクエストです。もう一度お試しください。');
+		header('Location: cart.php');
+		exit;
 	}
-	foreach ($cart as $pid => $qty) {
-		if (isset($map[$pid])) {
-			$name = $map[$pid]["name"];
-			$price = (int)$map[$pid]["price"];
-			$subtotal = $price * (int)$qty;
-			$items[] = ["id" => $pid, "name" => $name, "price" => $price, "quantity" => $qty, "subtotal" => $subtotal];
-			$total += $subtotal;
+	if ($action === 'add') {
+		$pid = (int)($_POST['product_id'] ?? 0);
+		$qty = (int)($_POST['qty'] ?? 1);
+		if ($pid > 0) {
+			cart_add($pid, $qty);
+			set_flash('done', 'カートに商品を追加しました。');
 		}
+		header('Location: cart.php');
+		exit;
+	} elseif ($action === 'update') {
+		$pid = (int)($_POST['product_id'] ?? 0);
+		$qty = (int)($_POST['qty'] ?? 1);
+		if ($pid > 0) {
+			cart_update_qty($pid, $qty);
+			set_flash('done', '数量を更新しました。');
+		}
+		header('Location: cart.php');
+		exit;
+	} elseif ($action === 'remove') {
+		$pid = (int)($_POST['product_id'] ?? 0);
+		if ($pid > 0) {
+			cart_remove($pid);
+			set_flash('done', 'カートから削除しました。');
+		}
+		header('Location: cart.php');
+		exit;
 	}
 }
+
+// 画面用データ
+$cart = cart_get();
+$tot  = cart_totals();
+$err  = get_flash('error');
+$done = get_flash('done');
+
+require 'header.php';
 ?>
-<main class="container">
-	<h2>ショッピングカート</h2>
-	<?php if (empty($items)): ?>
-		<p>現在カートは空です。</p>
-	<?php else: ?>
-		<form action="app/updateCart.php" method="post">
-			<input type="hidden" name="csrfToken" value="<?php echo h($_SESSION['csrfToken']); ?>">
-			<table class="cart-table">
-				<thead>
-					<tr>
-						<th>商品</th>
-						<th>価格</th>
-						<th>数量</th>
-						<th>小計</th>
-						<th>操作</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach ($items as $it): ?>
-						<tr>
-							<td><?php echo h($it["name"]); ?></td>
-							<td><?php echo number_format($it["price"]); ?> 円</td>
-							<td><input type="number" name="quantities[<?php echo (int)$it['id']; ?>]" min="0" value="<?php echo (int)$it['quantity']; ?>"></td>
-							<td><?php echo number_format($it["subtotal"]); ?> 円</td>
-							<td>
-								<button formaction="app/removeFromCart.php" name="productId" value="<?php echo (int)$it['id']; ?>">削除</button>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-			<p class="total">合計：<?php echo number_format($total); ?> 円</p>
-			<p>
-				<button type="submit">数量を更新</button>
-				<button formaction="app/clearCart.php">カートを空にする</button>
-			</p>
-		</form>
+<main class="cartPage">
+	<nav class="breadcrumb" aria-label="breadcrumb">
+		<span class="crumb current">カート</span>
+		<span class="sep">＞</span><a href="index.php" class="crumb">TOP</a>
+	</nav>
+
+	<h1 class="pageTitle">カート</h1>
+
+	<?php if ($err): ?><p class="alert error"><?php echo h($err); ?></p><?php endif; ?>
+	<?php if ($done): ?><p class="alert done"><?php echo h($done); ?></p><?php endif; ?>
+
+	<?php if ($cart): ?>
+		<?php /* 上部サマリー（ユーザー名と商品の間） */ ?>
+		<section class="cartTopSummary" aria-label="カートサマリー">
+			<div class="cartTopSummary__inner">
+				<div class="cartTopSummary__text">
+					<div class="cartTopSummary__items">現在　商品<?php echo (int)$tot['items']; ?>点</div>
+					<div class="cartTopSummary__subtotal">ご注文小計：<span class="tax">税込</span> ￥<?php echo number_format($tot['subtotal']); ?></div>
+				</div>
+				<a class="btnPrimary cartTopSummary__cta" href="checkout.php">購入確認へ進む</a>
+			</div>
+		</section>
 	<?php endif; ?>
-	<p><a href="products.php">商品一覧へ戻る</a></p>
+
+	<?php if (!$cart): ?>
+		<p>カートに商品がありません。</p>
+		<p><a class="btnSecondary" href="products.php">買い物を続ける</a></p>
+	<?php else: ?>
+
+		<section class="cartList" aria-label="カート商品一覧">
+			<?php foreach ($cart as $row): ?>
+				<?php
+				$pid   = (int)$row['id'];
+				$name  = (string)$row['name'];
+				$price = (int)$row['price'];
+				$qty   = (int)$row['qty'];
+				$img   = trim((string)($row['image'] ?? ''));
+				$imgSrc = $img !== '' ? "images/" . rawurlencode($img) : "images/noimage.jpg";
+				?>
+				<article class="cartItem">
+					<a href="product_detail.php?id=<?php echo $pid; ?>" class="thumb" aria-label="<?php echo h($name); ?>">
+						<img src="<?php echo h($imgSrc); ?>" alt="<?php echo h($name); ?>" width="120" height="120" loading="lazy">
+					</a>
+
+					<div class="meta">
+						<h2 class="name">
+							<a href="product_detail.php?id=<?php echo $pid; ?>"><?php echo h($name); ?></a>
+						</h2>
+						<p class="unitPrice">個 <span class="tax">税込</span> ￥<?php echo number_format($price); ?></p>
+					</div>
+
+					<form class="qtyForm" method="post" action="cart.php">
+						<input type="hidden" name="csrfToken" value="<?php echo h($_SESSION['csrfToken']); ?>">
+						<input type="hidden" name="action" value="update">
+						<input type="hidden" name="product_id" value="<?php echo $pid; ?>">
+						<label>数量
+							<input type="number" name="qty" min="1" value="<?php echo $qty; ?>" inputmode="numeric" pattern="[0-9]*">
+						</label>
+						<button type="submit" class="btnSmall">再計算</button>
+					</form>
+
+					<form class="removeForm" method="post" action="cart.php" onsubmit="return confirm('削除しますか？');">
+						<input type="hidden" name="csrfToken" value="<?php echo h($_SESSION['csrfToken']); ?>">
+						<input type="hidden" name="action" value="remove">
+						<input type="hidden" name="product_id" value="<?php echo $pid; ?>">
+						<button type="submit" class="linkDanger">削除する</button>
+					</form>
+				</article>
+			<?php endforeach; ?>
+		</section>
+
+		<section class="cartSummary">
+			<div class="sumLine">
+				<div>
+					<a class="btnSecondary" href="products.php">買い物を続ける</a>
+				</div>
+				<div class="totals">
+					<div class="subtotal">ご注文小計：<span class="tax">税込</span> ￥<?php echo number_format($tot['subtotal']); ?></div>
+					<div class="items">現在　商品<?php echo (int)$tot['items']; ?>点</div>
+				</div>
+			</div>
+
+			<div class="actions">
+				<a class="btnPrimary" href="checkout.php">購入確認へ進む</a>
+			</div>
+		</section>
+
+	<?php endif; ?>
 </main>
-<?php require "footer.php"; ?>
+<?php require 'footer.php'; ?>

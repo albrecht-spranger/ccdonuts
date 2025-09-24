@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/app/sessionManager.php';
+require_once __DIR__ . '/app/commonFunctions.php';
 // 共通ヘッダー（doctype〜<header>まで）
 // 期待する事前変数: $pageTitle（任意）
 if (!isset($pageTitle) || $pageTitle === "") {
@@ -11,8 +13,16 @@ if (!isset($pageTitle) || $pageTitle === "") {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo $pageTitle; ?></title>
+	<title><?php
+			require_once __DIR__ . '/app/sessionManager.php';
+			require_once __DIR__ . '/app/commonFunctions.php';
+			echo $pageTitle; ?></title>
+	<link rel="stylesheet" href="styles/reset.css">
 	<link rel="stylesheet" href="styles/style.css">
+	<link rel="stylesheet" href="styles/products.css">
+	<link rel="stylesheet" href="styles/product_detail.css">
+	<link rel="stylesheet" href="styles/cart.css">
+	<link rel="stylesheet" href="styles/login.css">
 </head>
 
 <body>
@@ -35,19 +45,13 @@ if (!isset($pageTitle) || $pageTitle === "") {
 			<div class="headerActions">
 				<a href="login.php" class="actionItem" aria-label="ログイン">
 					<div class="iconWrap">
-						<!-- login icon -->
-						<svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
-							<path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5Z" />
-						</svg>
+						<img src="images/loginLogo.svg" alt="ログイン" width="36" height="36">
 					</div>
 					<span class="actionLabel">ログイン</span>
 				</a>
 				<a href="cart.php" class="actionItem" aria-label="カート">
 					<div class="iconWrap">
-						<!-- cart icon -->
-						<svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
-							<path d="M7 18a2 2 0 1 0 2 2 2 2 0 0 0-2-2Zm10 0a2 2 0 1 0 2 2 2 2 0 0 0-2-2ZM7.2 14h9.9a2 2 0 0 0 1.92-1.47L21 6H6.42l-.48-2H2v2h2l3 11Zm12.02-8-1.5 6H7.2l-1.36-6Z" />
-						</svg>
+						<img src="images/cartLogo.svg" alt="カート" width="36" height="36">
 					</div>
 					<span class="actionLabel">カート</span>
 				</a>
@@ -70,6 +74,7 @@ if (!isset($pageTitle) || $pageTitle === "") {
 
 		<!-- スマホ用開閉メニュー（必要に応じて項目追加） -->
 		<nav id="globalNav" class="globalNav" hidden>
+			<button class="menuClose" id="menuClose" aria-label="メニューを閉じる">✕</button>
 			<ul>
 				<li><a href="products.php">商品一覧</a></li>
 				<li><a href="faq.php">よくある質問</a></li>

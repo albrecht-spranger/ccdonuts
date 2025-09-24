@@ -1,0 +1,17 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Arrow exiting broken circle to the left">
+  <!-- 円（左側に欠けを作る：ダッシュとオフセットで表現） -->
+  <path
+    d="M32 18a14 14 0 1 1-28 0a14 14 0 1 1 28 0"
+    stroke="#7F5539"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    fill="none"
+    stroke-dasharray="70 18"  <!-- 円周 ≈ 88。ダッシュを70、欠けを18に設定 -->
+    stroke-dashoffset="44"    <!-- 欠けを左側（180°付近）へ移動 -->
+  />
+  <!-- 左向きの矢印（円の欠けから外へ） -->
+  <g stroke="#7F5539" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M20 18H6"/>        <!-- 矢印の胴 -->
+    <path d="M12 12L6 18L12 24"/> <!-- 矢印の頭 -->
+  </g>
+</svg>
