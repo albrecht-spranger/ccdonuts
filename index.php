@@ -1,5 +1,8 @@
 <?php
-$pageTitle = "CC Donuts | トップページ";
+$pageTitle = "CCドーナツ | トップ";
+$breadcrumbs = [
+	['label' => 'TOP', 'url' => null]
+];
 require "header.php";
 ?>
 <!-- メインビジュアル（差し替え推奨） -->

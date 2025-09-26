@@ -1,1 +1,1 @@
-mysqldump -u root -p --default-character-set=utf8mb4 --single-transaction --routines --triggers --events --databases ccdonuts --result-file=C:\Users\PGcca\Documents\20250527_南柏\20250923_08-Webプログラミング演習3\ccdonuts\db\backup_ccdonuts.sql
+mysqldump -u root -p --default-character-set=utf8mb4 --single-transaction --routines --triggers --events --databases ccdonuts --result-file=C:\xampp\htdocs\ccdonuts\db\backup_ccdonuts.sql

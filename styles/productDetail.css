@@ -3,25 +3,6 @@
 	padding: 24px 16px 72px;
 }
 
-.breadcrumb {
-	font-size: .9rem;
-	margin: 0 0 10px;
-	white-space: nowrap;
-	overflow: auto;
-}
-
-.breadcrumb .sep {
-	margin: 0 .4em;
-}
-
-.breadcrumb .crumb {
-	text-decoration: none;
-}
-
-.breadcrumb .current {
-	font-weight: 700;
-}
-
 .productDetail {
 	display: grid;
 	grid-template-columns: minmax(320px, 540px) 1fr;

@@ -26,11 +26,6 @@ if($password !== $passwordConfirm) $errors[] = 'パスワードが一致しま�
 ?>
 <link rel="stylesheet" href="styles/registerStyles.css">
 <main class="registerPage">
-  <div class="pageHeader">
-    <div class="breadcrumbs">入力確認 ＞ 会員登録 ＞ ログイン ＞ TOP</div>
-    <div class="welcomeBar">ようこそ　ゲスト様</div>
-  </div>
-
   <h1 class="pageTitle">入力確認</h1>
 
   <?php if (!empty($errors)): ?>

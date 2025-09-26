@@ -5,11 +5,6 @@ require 'header.php';
 <!-- Page-specific CSS -->
 <link rel="stylesheet" href="styles/registerStyles.css">
 <main class="registerPage">
-  <div class="pageHeader">
-    <div class="breadcrumbs">会員登録 ＞ ログイン ＞ TOP</div>
-    <div class="welcomeBar">ようこそ　ゲスト様</div>
-  </div>
-
   <h1 class="pageTitle">会員登録</h1>
 
   <form action="registerConfirm.php" method="post" class="registerForm" novalidate>

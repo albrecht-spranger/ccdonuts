@@ -3,15 +3,6 @@
     padding: 24px 16px 72px;
 }
 
-.authPage .breadcrumb {
-    font-size: .9rem;
-    margin-bottom: 8px;
-}
-
-.authPage .breadcrumb .sep {
-    margin: 0 .4em;
-}
-
 .authPage .pageTitle {
     font-size: 1.6rem;
     font-weight: 700;

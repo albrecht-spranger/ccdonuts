@@ -6,7 +6,7 @@ require_once __DIR__ . '/app/sessionManager.php';
 require_once __DIR__ . '/app/commonFunctions.php';
 require_once __DIR__ . '/app/cartLib.php';
 
-$pageTitle = 'カート | CC Donuts';
+$pageTitle = 'CC Donuts | カート';
 
 // ---- アクション処理 ----
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
@@ -15,7 +15,7 @@ $action = $_REQUEST['action'] ?? '';
 if ($method === 'POST') {
 	// CSRF
 	if (empty($_POST['csrfToken']) || !hash_equals($_SESSION['csrfToken'] ?? '', (string)$_POST['csrfToken'])) {
-		set_flash('error', '不正なリクエストです。もう一度お試しください。');
+		setFlash('error', '不正なリクエストです。もう一度お試しください。');
 		header('Location: cart.php');
 		exit;
 	}
@@ -24,7 +24,7 @@ if ($method === 'POST') {
 		$qty = (int)($_POST['qty'] ?? 1);
 		if ($pid > 0) {
 			cart_add($pid, $qty);
-			set_flash('done', 'カートに商品を追加しました。');
+			setFlash('done', 'カートに商品を追加しました。');
 		}
 		header('Location: cart.php');
 		exit;
@@ -33,7 +33,7 @@ if ($method === 'POST') {
 		$qty = (int)($_POST['qty'] ?? 1);
 		if ($pid > 0) {
 			cart_update_qty($pid, $qty);
-			set_flash('done', '数量を更新しました。');
+			setFlash('done', '数量を更新しました。');
 		}
 		header('Location: cart.php');
 		exit;
@@ -41,7 +41,7 @@ if ($method === 'POST') {
 		$pid = (int)($_POST['product_id'] ?? 0);
 		if ($pid > 0) {
 			cart_remove($pid);
-			set_flash('done', 'カートから削除しました。');
+			setFlash('done', 'カートから削除しました。');
 		}
 		header('Location: cart.php');
 		exit;
@@ -51,21 +51,16 @@ if ($method === 'POST') {
 // 画面用データ
 $cart = cart_get();
 $tot  = cart_totals();
-$err  = get_flash('error');
-$done = get_flash('done');
+$err  = getFlash('error');
+$done = getFlash('done');
 
 require 'header.php';
 ?>
 <main class="cartPage">
-	<nav class="breadcrumb" aria-label="breadcrumb">
-		<span class="crumb current">カート</span>
-		<span class="sep">＞</span><a href="index.php" class="crumb">TOP</a>
-	</nav>
-
 	<h1 class="pageTitle">カート</h1>
 
-	<?php if ($err): ?><p class="alert error"><?php echo h($err); ?></p><?php endif; ?>
-	<?php if ($done): ?><p class="alert done"><?php echo h($done); ?></p><?php endif; ?>
+	<?php if ($err): ?><p class="alert error"><?= htmlspecialchars($err, ENT_QUOTES, 'UTF-8'); ?></p><?php endif; ?>
+	<?php if ($done): ?><p class="alert done"><?= htmlspecialchars($done, ENT_QUOTES, 'UTF-8'); ?></p><?php endif; ?>
 
 	<?php if ($cart): ?>
 		<?php /* 上部サマリー（ユーザー名と商品の間） */ ?>
@@ -96,19 +91,19 @@ require 'header.php';
 				$imgSrc = $img !== '' ? "images/" . rawurlencode($img) : "images/noimage.jpg";
 				?>
 				<article class="cartItem">
-					<a href="product_detail.php?id=<?php echo $pid; ?>" class="thumb" aria-label="<?php echo h($name); ?>">
-						<img src="<?php echo h($imgSrc); ?>" alt="<?php echo h($name); ?>" width="120" height="120" loading="lazy">
+					<a href="product_detail.php?id=<?php echo $pid; ?>" class="thumb" aria-label="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>">
+						<img src="<?= htmlspecialchars($imgSrc, ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($_SESSION['csrfToken'], ENT_QUOTES, 'UTF-8'); ?>" width="120" height="120" loading="lazy">
 					</a>
 
 					<div class="meta">
 						<h2 class="name">
-							<a href="product_detail.php?id=<?php echo $pid; ?>"><?php echo h($name); ?></a>
+							<a href="product_detail.php?id=<?php echo $pid; ?>"><?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?></a>
 						</h2>
 						<p class="unitPrice">個 <span class="tax">税込</span> ￥<?php echo number_format($price); ?></p>
 					</div>
 
 					<form class="qtyForm" method="post" action="cart.php">
-						<input type="hidden" name="csrfToken" value="<?php echo h($_SESSION['csrfToken']); ?>">
+						<input type="hidden" name="csrfToken" value="<?= htmlspecialchars($_SESSION['csrfToken'], ENT_QUOTES, 'UTF-8'); ?>">
 						<input type="hidden" name="action" value="update">
 						<input type="hidden" name="product_id" value="<?php echo $pid; ?>">
 						<label>数量
@@ -118,7 +113,7 @@ require 'header.php';
 					</form>
 
 					<form class="removeForm" method="post" action="cart.php" onsubmit="return confirm('削除しますか？');">
-						<input type="hidden" name="csrfToken" value="<?php echo h($_SESSION['csrfToken']); ?>">
+						<input type="hidden" name="csrfToken" value="<?= htmlspecialchars($_SESSION['csrfToken'], ENT_QUOTES, 'UTF-8'); ?>">
 						<input type="hidden" name="action" value="remove">
 						<input type="hidden" name="product_id" value="<?php echo $pid; ?>">
 						<button type="submit" class="linkDanger">削除する</button>

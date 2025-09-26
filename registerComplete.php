@@ -120,11 +120,6 @@ require 'header.php';
 ?>
 <link rel="stylesheet" href="styles/registerStyles.css">
 <main class="registerPage">
-  <div class="pageHeader">
-    <div class="breadcrumbs">会員登録完了 ＞ 入力確認 ＞ 会員登録 ＞ ログイン ＞ TOP</div>
-    <div class="welcomeBar">ようこそ　ゲスト様</div>
-  </div>
-
   <h1 class="pageTitle">会員登録完了</h1>
 
   <?php if (!isset($_GET['done'])): ?>

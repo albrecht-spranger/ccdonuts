@@ -1,10 +1,17 @@
 <?php
 require_once __DIR__ . '/app/sessionManager.php';
 require_once __DIR__ . '/app/commonFunctions.php';
-// 共通ヘッダー（doctype〜<header>まで）
-// 期待する事前変数: $pageTitle（任意）
+require_once __DIR__ . '/app/auth.php';
+
 if (!isset($pageTitle) || $pageTitle === "") {
-	$pageTitle = "CC Donuts";
+	$pageTitle = "CCドーナツ";
+}
+
+// ログイン済みか判断
+if (isLoggedIn()) {
+	$userName = getLoginUserName();  // 登録しておいたユーザー名
+} else {
+	$userName = 'ゲスト';
 }
 ?>
 <!DOCTYPE html>
@@ -13,32 +20,33 @@ if (!isset($pageTitle) || $pageTitle === "") {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php
-			require_once __DIR__ . '/app/sessionManager.php';
-			require_once __DIR__ . '/app/commonFunctions.php';
-			echo $pageTitle; ?></title>
+	<title><?= $pageTitle; ?></title>
 	<link rel="stylesheet" href="styles/reset.css">
 	<link rel="stylesheet" href="styles/style.css">
+	<link rel="stylesheet" href="styles/header.css">
 	<link rel="stylesheet" href="styles/products.css">
-	<link rel="stylesheet" href="styles/product_detail.css">
+	<link rel="stylesheet" href="styles/productDetail.css">
 	<link rel="stylesheet" href="styles/cart.css">
 	<link rel="stylesheet" href="styles/login.css">
+	<link rel="stylesheet" href="styles/registerStyles.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
 	<header class="siteHeader">
 		<div class="headerBar">
-			<button class="menuButton" id="menuButton" aria-label="メニューを開く" aria-controls="globalNav" aria-expanded="false">
+			<button class="menuButton" id="menuButton">
 				<!-- hamburger -->
-				<svg width="28" height="20" viewBox="0 0 28 20" aria-hidden="true">
+				<svg width="28" height="20" viewBox="0 0 28 20">
 					<rect x="0" y="0" width="28" height="2" rx="1" />
 					<rect x="0" y="9" width="28" height="2" rx="1" />
 					<rect x="0" y="18" width="28" height="2" rx="1" />
 				</svg>
 			</button>
 
-			<a href="index.php" class="logoWrap" aria-label="CC Donuts ホーム">
-				<!-- ロゴ画像がある場合は images/logo.png に差し替え -->
+			<a href="index.php" class="logoWrap">
 				<img src="images/pcHeaderLogo.svg" alt="C.C. Donuts">
 			</a>
 
@@ -70,7 +78,39 @@ if (!isset($pageTitle) || $pageTitle === "") {
 			</form>
 		</div>
 
-		<p class="welcomeText">ようこそ　ゲスト様</p>
+		<!-- パンくずリスト -->
+		<?php
+		// パンくずが2つ以上あれば、パンくずを表示（1つだけはTOPのみ）
+		if (isset($breadcrumbs) && count($breadcrumbs) > 1) { ?>
+			<div class="breadcrumbContainer">
+				<p class="breadcrumb">
+					<?php
+					if (!$breadcrumbs) {
+						echo 'undefined';
+					} else {
+						foreach ($breadcrumbs as $i => $bc) {
+							if ($i !== 0) {
+								echo '＞';
+							}
+							$label = htmlspecialchars($bc['label'] ?? '', ENT_QUOTES, 'UTF-8');
+							$url   = $bc['url']   ?? null;
+							if ($url) {
+								$href = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+								echo '<a href="' . $href . '">' . $label . '</a>';
+							} else {
+								echo $label;
+							}
+						}
+					}
+					?>
+				</p>
+			</div>
+		<?php } ?>
+
+		<!-- ログインユーザ名 -->
+		<div class="loginUserContainer">
+			<p>ようこそ　<?= $userName ?> 様</p>
+		</div>
 
 		<!-- スマホ用開閉メニュー（必要に応じて項目追加） -->
 		<nav id="globalNav" class="globalNav" hidden>
