@@ -1,0 +1,1 @@
+mysqldump.exe -u root --all-databases --default-character-set=utf8mb4 --result-file="C:\xampp\htdocs\ccdonuts\db\backup_all.sql"
