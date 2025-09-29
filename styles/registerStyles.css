@@ -10,9 +10,7 @@
 .registerPage {
 	max-width: 760px;
 	margin: 24px auto 96px;
-	padding: 0 16px;
 	color: var(--text);
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
 }
 
 .pageHeader {
@@ -24,31 +22,44 @@
 	margin-bottom: 8px;
 }
 
+.loginTitleContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 375px;
+	height: 84px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.loginContents {
+	max-width: 375px;
+	height: 380px;
+	padding: 40px 40px 80px 40px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /* Form */
 .registerForm,
 .confirmForm {
-	background: #fff;
-	border: 1px solid var(--border);
-	border-radius: 10px;
-	box-shadow: 0 4px 16px rgba(0, 0, 0, .05);
-	padding: 16px;
+	border: 2px solid #f7d1cd;
+	padding: 20px 12px;
 }
 
 .formRow {
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
-	padding: 12px 0;
-	border-top: 1px solid var(--border);
+	gap: 12px;
 }
 
-.formRow:first-child {
-	border-top: 0;
+.formRow.formRow {
+	margin-bottom: 20px;
 }
 
 .formRow label {
-	font-weight: 600;
-	letter-spacing: .02em;
+	font-size: 0.75rem;
+	color: #7f5539;
 }
 
 .formRow .note {
@@ -60,11 +71,9 @@
 .registerForm input[type="text"],
 .registerForm input[type="email"],
 .registerForm input[type="password"] {
-	border: 1px solid var(--border);
-	border-radius: 8px;
-	padding: 10px 12px;
-	font-size: 1rem;
-	outline: none;
+	border: 1px solid #7f5539;
+	padding: 4px;
+	font-size: 0.75rem;
 }
 
 .registerForm input:focus {
@@ -125,38 +134,22 @@
 }
 
 .primaryBtn,
-.secondaryBtn,
 .buttons button {
-	appearance: none;
-	border-radius: 999px;
-	padding: 10px 18px;
-	text-decoration: none;
+	padding: 16px 32px;
 	cursor: pointer;
-	display: inline-block;
+	display: block;
 	text-align: center;
-	line-height: 1.2;
-	transition: transform .02s ease-in;
+	width: 160px;
+	height: 48px;
+	background-color: #7f5539;
+	color: white;
+	font-size: 1rem;
 }
 
-.primaryBtn:active,
-.secondaryBtn:active,
-.buttons button:active {
-	transform: translateY(1px);
-}
-
-.primaryBtn,
-.buttons .primaryBtn,
-.buttons button.primaryBtn,
-.buttons button[type="submit"] {
-	background: var(--brand-brown);
-	color: var(--white);
-	border: 2px solid var(--brand-brown);
-}
-
-.secondaryBtn {
-	background: transparent;
-	color: var(--brand-brown);
-	border: 2px solid var(--brand-brown);
+.registerLink {
+	margin-top: 20px;
+	text-align: right;
+	display: block;
 }
 
 /* Complete */

@@ -8,16 +8,17 @@ require "head.php";
 
 <body>
 	<!-- ヘッダ -->
-	<?php
-	$breadcrumbs = [
-		['label' => 'TOP', 'url' => 'index.php'],
-		['label' => 'ログイン', 'url' => null],
-	];
-	require "header.php" ?>
+	<?php require "header.php" ?>
 
 	<main>
 		<!-- パンくずリスト -->
-		<?php require "breadcrumbs.php" ?>
+		<?php
+		$breadcrumbs = [
+			['label' => 'TOP', 'url' => 'index.php'],
+			['label' => 'ログイン', 'url' => null],
+		];
+		require "breadcrumbs.php"
+		?>
 
 		<!-- ログインユーザ名 -->
 		<div class="loginUserContainer">
@@ -25,7 +26,9 @@ require "head.php";
 		</div>
 
 		<section class="registerPage">
-			<h1 class="pageTitle">ログイン</h1>
+			<div class="loginTitleContainer">
+				<h1 class="h1Login">ログイン</h1>
+			</div>
 
 			<?php
 			$error = getFlash('error');
@@ -34,22 +37,24 @@ require "head.php";
 				<div class="errorMessage"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></div>
 			<?php } ?>
 
-			<form method="post" class="registerForm" action="app/loginProcess.php">
-				<div class="formRow">
-					<label for="mail">メールアドレス</label>
-					<input id="mail" name="mail" type="email" required value="<?= htmlspecialchars($_POST['mail'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
-				</div>
+			<div class="loginContents">
+				<form method="post" class="registerForm" action="app/loginProcess.php">
+					<div class="formRow">
+						<label for="mail">メールアドレス</label>
+						<input id="mail" name="mail" type="email" required value="<?= htmlspecialchars($_POST['mail'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+					</div>
 
-				<div class="formRow">
-					<label for="password">パスワード</label>
-					<input id="password" name="password" type="password" required>
-				</div>
+					<div class="formRow">
+						<label for="password">パスワード</label>
+						<input id="password" name="password" type="password" required>
+					</div>
 
-				<div class="buttons">
-					<button type="submit" class="primaryBtn">ログイン</button>
-					<a class="secondaryBtn" href="registerInput.php">新規会員登録はこちら</a>
-				</div>
-			</form>
+					<div class="buttons">
+						<button type="submit" class="primaryBtn">ログインする</button>
+					</div>
+				</form>
+				<a class="registerLink" href="registerInput.php">新規会員登録はこちら</a>
+			</div>
 		</section>
 	</main>
 

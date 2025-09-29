@@ -44,13 +44,12 @@ h1 {
 	display: block;
 	font-size: 2rem;
 	color: black;
-	width: fit-content;
-	height: 72px;
-	line-height: 72px;
-	text-align: center;
-	border-bottom: 2px solid #ffd233;
-	margin-left: auto;
-	margin-right: auto;
+	text-decoration-line: underline;
+	text-decoration-thickness: 2px;
+	text-decoration-style: solid;
+	text-decoration-color: #ffd233;
+	text-underline-offset: 20px;
+	/* 文字からの距離 */
 }
 
 /* ------------------------------
@@ -129,7 +128,7 @@ h1 {
 	height: 32px;
 	transform: translate(-50%, -50%);
 	background: yellow;
-	filter: blur(4px); 
+	filter: blur(4px);
 	border-radius: 50%;
 	z-index: 0;
 }
@@ -385,4 +384,9 @@ h1 {
 
 /* Responsive */
 @media (max-width: 768px) {
+	/* h1 */
+	h1 {
+		text-underline-offset: 12px;
+		/* 文字からの距離 */
+	}
 }

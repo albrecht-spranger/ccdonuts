@@ -1,17 +1,33 @@
-<?php
-// /loginComplete.php
-declare(strict_types=1);
-require_once __DIR__ . '/app/sessionManager.php';
-require_once __DIR__ . '/app/commonFunctions.php';
+<!DOCTYPE html>
+<html lang="ja">
 
-$pageTitle = 'CCドーナツ | ログイン完了';
-$breadcrumbs = [
-	['label' => 'TOP', 'url' => 'index.php'],
-	['label' => 'ログイン完了', 'url' => null],
-];
-require 'header.php';
+<?php
+$pageTitle = "CCドーナツ | ログイン完了";
+require "head.php";
 ?>
-<main class="authPage loginDonePage">
+
+<body>
+	<!-- ヘッダ -->
+	<?php require "header.php" ?>
+
+	<main>
+		<!-- パンくずリスト -->
+		<?php
+		$breadcrumbs = [
+			['label' => 'TOP', 'url' => 'index.php'],
+			['label' => 'ログイン', 'url' => 'login.php'],
+			['label' => 'ログイン完了', 'url' => null],
+		];
+		require "breadcrumbs.php"
+		?>
+
+		<!-- ログインユーザ名 -->
+		<div class="loginUserContainer">
+			<p>ようこそ　<?= isLoggedIn() ? getLoginUserName() : 'ゲスト' ?> 様</p>
+		</div>
+
+
+
 	<h1>ログイン完了</h1>
 
 	<p class="loginDoneMessage">ログインが完了しました。</p>
