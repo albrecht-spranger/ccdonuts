@@ -12,7 +12,7 @@ $breadcrumbs = [
 require 'header.php';
 ?>
 <main class="authPage loginDonePage">
-	<h1 class="pageTitle">ログイン完了</h1>
+	<h1>ログイン完了</h1>
 
 	<p class="loginDoneMessage">ログインが完了しました。</p>
 	<p class="loginDoneLead"><?= getLoginUserName(); ?> 様</p>

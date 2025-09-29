@@ -1,5 +1,6 @@
 /* ------------------------------
-  CC Donuts 共通スタイル（ヘッダー/フッター含む）
+  CC Donuts 共通スタイル
+  ヘッダ、フッタ、パンくずリスト、ログインユーザ名表示を含む
 ---------------------------------*/
 :root {
 	--beige: #ebddcf;
@@ -38,32 +39,48 @@ body {
 	font-weight: 400;
 }
 
-/* Header */
+/* h1 */
+h1 {
+	display: block;
+	font-size: 2rem;
+	color: black;
+	width: fit-content;
+	height: 72px;
+	line-height: 72px;
+	text-align: center;
+	border-bottom: 2px solid #ffd233;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* ------------------------------
+  ヘッダ
+---------------------------------*/
 .siteHeader {
 	background: var(--beige);
 	border-bottom: 1px solid rgba(0, 0, 0, .04);
 }
 
 .headerBar {
-	display: flex;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	/* 左=内容幅 / 中央=残り / 右=内容幅 */
 	align-items: center;
-	justify-content: space-between;
-	gap: 16px;
-	padding: 12px 20px;
+	padding: 20px 95px;
 }
 
 .menuButton {
-	background: none;
-	border: none;
-	padding: 6px;
+	justify-self: start;
 	cursor: pointer;
 }
 
-.menuButton svg rect {
-	fill: var(--brown);
+.menuButton ing {
+	width: 50px;
+	height: 50px;
 }
 
 .logoWrap {
+	justify-self: center;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -71,17 +88,12 @@ body {
 
 .logoWrap img {
 	display: block;
-	width: 120px;
-	height: auto;
-}
-
-.logoText {
-	font-weight: 700;
-	font-size: 1.4rem;
-	color: var(--brown);
+	width: 87px;
+	height: 78px;
 }
 
 .headerActions {
+	justify-self: end;
 	display: flex;
 	align-items: center;
 	gap: 20px;
@@ -95,10 +107,31 @@ body {
 	color: var(--brown);
 }
 
+.iconWrap {
+	position: relative;
+	width: 36px;
+	height: 36px;
+}
+
 .iconWrap img {
 	width: 36px;
 	height: 36px;
 	display: block;
+	z-index: 1;
+	position: relative;
+}
+
+.iconWrap.loggedIn::before {
+	content: "";
+	position: absolute;
+	inset: 50%;
+	width: 32px;
+	height: 32px;
+	transform: translate(-50%, -50%);
+	background: yellow;
+	filter: blur(4px); 
+	border-radius: 50%;
+	z-index: 0;
 }
 
 .actionLabel {
@@ -106,53 +139,46 @@ body {
 	margin-top: 2px;
 }
 
+/* 検索領域 */
 .searchArea {
 	background: var(--lavender);
-	padding: 12px 20px;
+	padding: 12px 95px;
 }
 
 .searchForm {
-	max-width: 840px;
-	margin: 0 auto;
+	margin: 0;
 	display: flex;
 	align-items: center;
 	gap: 0;
+	justify-content: flex-end;
 }
 
 .searchButton {
+	box-sizing: border-box;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 36px;
-	height: 36px;
+	width: 40px;
+	height: 40px;
 	border: 2px solid var(--brown);
 	border-right: 0;
-	background: #fff;
+	background: #d9d9d9;
 	cursor: pointer;
 }
 
-.searchButton svg path {
-	stroke: var(--brown);
-	fill: none;
-	stroke-width: 2;
+.searchIcon {
+	width: 18px;
+	height: 18px;
 }
 
 .searchInput {
-	flex: 1 1 auto;
-	height: 36px;
+	box-sizing: border-box;
+	width: 320px;
+	height: 40px;
 	border: 2px solid var(--brown);
 	padding: 0 10px;
 	outline: none;
-}
-
-/* --- auth: login status --- */
-.loginStatus {
-	margin-left: auto;
-	font-size: 0.95rem;
-}
-
-.loginStatus a {
-	text-decoration: underline;
+	background-color: white;
 }
 
 /* グローバルナビ（スマホ用の簡易ドロワー） */
@@ -186,195 +212,6 @@ body {
 	border-bottom: none;
 }
 
-/* Main */
-.siteMain {
-	min-height: 50vh;
-}
-
-/* Hero */
-.hero {
-	overflow: hidden;
-}
-
-.hero img {
-	width: 100%;
-	height: 593px;
-	display: block;
-	object-fit: cover;
-	object-position: center center;
-}
-
-/* Features */
-.featureBlocks {
-	display: flex;
-	flex-direction: column;
-	gap: 16px;
-	padding: 20px;
-}
-
-.featureItem {
-	position: relative;
-	overflow: hidden;
-}
-
-.featureRow {
-	display: grid;
-	grid-template-columns: 480px 480px;
-	justify-content: center;
-	gap: 80px;
-}
-
-.featureItem img {
-	width: 480px;
-	height: 480px;
-	object-fit: cover;
-	display: block;
-}
-
-.featureItem.wide img {
-	width: 1040px;
-	height: 257px;
-	object-fit: cover;
-}
-
-.featureBadge {
-	position: absolute;
-	top: 8px;
-	left: 8px;
-	background: #ff6b6b;
-	color: #fff;
-	padding: 4px 8px;
-	border-radius: 6px;
-	font-size: .85rem;
-	font-weight: 700;
-}
-
-.featureCaption {
-	position: absolute;
-	bottom: 8px;
-	left: 8px;
-	right: 8px;
-	color: #fff;
-	text-shadow: 0 1px 2px rgba(0, 0, 0, .4);
-	font-weight: 700;
-	letter-spacing: .02em;
-}
-
-/* Philosophy */
-.philosophyBlock {
-	position: relative;
-	padding: 64px 20px;
-	background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.25)), url('../images/philosophy.jpg') center/cover no-repeat;
-	color: #fff;
-	text-align: center;
-}
-
-.philosophyTitle {
-	font-size: 2rem;
-	margin: 0;
-}
-
-.philosophySub {
-	margin: 6px 0 8px;
-	opacity: .9;
-}
-
-.philosophyCopy .en {
-	display: block;
-	font-size: 1.25rem;
-	margin-bottom: 4px;
-}
-
-.philosophyCopy .ja {
-	display: block;
-	font-size: 1rem;
-}
-
-/* Ranking */
-.sectionTitle {
-	font-size: 1.4rem;
-	margin: 24px 20px 8px;
-}
-
-.cardGrid {
-	display: grid;
-	gap: 16px;
-	padding: 0 20px 24px;
-	grid-template-columns: repeat(3, 1fr);
-}
-
-.cardItem {
-	/* 枠線削除 */
-	border: none;
-	border-radius: 10px;
-	padding: 12px;
-	text-align: center;
-	position: relative;
-	background: #fff;
-}
-
-.rankBadge {
-	position: absolute;
-	top: 12px;
-	left: 12px;
-	width: 32px;
-	height: 32px;
-	border-radius: 0;
-	/* 正方形 */
-	color: #fff;
-	font-weight: 700;
-	font-size: .95rem;
-	display: grid;
-	place-items: center;
-	z-index: 1;
-}
-
-/* 背景色を順位ごとに */
-.cardGrid .cardItem:nth-child(1) .rankBadge {
-	background: var(--rank1);
-}
-
-.cardGrid .cardItem:nth-child(2) .rankBadge {
-	background: var(--rank2);
-}
-
-.cardGrid .cardItem:nth-child(3) .rankBadge {
-	background: var(--rank3);
-}
-
-.cardGrid .cardItem:nth-child(4) .rankBadge {
-	background: var(--rank4);
-}
-
-.cardGrid .cardItem:nth-child(5) .rankBadge {
-	background: var(--rank5);
-}
-
-.cardGrid .cardItem:nth-child(6) .rankBadge {
-	background: var(--rank6);
-}
-
-.cardItem img {
-	width: 320px;
-	height: 320px;
-	object-fit: cover;
-	display: block;
-	margin: 0 auto 8px;
-	/* 角丸なし */
-	border-radius: 0;
-}
-
-.cardTitle {
-	font-size: 1rem;
-	margin: 8px 0;
-}
-
-.cardPrice {
-	color: #b10000;
-	font-weight: 700;
-	margin: 4px 0 10px;
-}
-
 .cartButton {
 	background: var(--brown);
 	color: #fff;
@@ -386,111 +223,6 @@ body {
 
 .cartButton:hover {
 	background: var(--brown-deep);
-}
-
-/* Footer */
-.siteFooter {
-	background: var(--beige);
-	text-align: center;
-	padding: 24px 20px 12px;
-	border-top: 1px solid var(--brown);
-}
-
-.footerLinks {
-	display: flex;
-	gap: 40px;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
-	margin: 0 0 12px;
-}
-
-.footerLink {
-	text-decoration: none;
-	color: var(--text);
-	position: relative;
-	padding-left: 14px;
-}
-
-.footerLink span {
-	border-bottom: 1px solid transparent;
-}
-
-.footerLink::before {
-	content: "";
-	position: absolute;
-	left: 0;
-	top: 4px;
-	bottom: 4px;
-	width: 4px;
-	background: var(--lavender);
-	border-radius: 2px;
-}
-
-.footerBrand img {
-	width: 120px;
-	height: auto;
-	margin: 12px auto;
-	display: block;
-}
-
-.footerLogoText {
-	color: var(--brown);
-	font-weight: 700;
-	font-size: 1.4rem;
-}
-
-.snsLinks {
-	display: flex;
-	gap: 16px;
-	justify-content: center;
-	margin: 8px 0 12px;
-}
-
-.copyrightBar {
-	border-top: 2px solid var(--brown);
-	margin-top: 8px;
-}
-
-.copyright {
-	font-size: .85rem;
-	margin: 8px 0 0;
-	color: #6b6b6b;
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-	.cardGrid {
-		grid-template-columns: repeat(2, 1fr);
-	}
-
-	.featureBlocks {
-		grid-template-columns: 1fr;
-	}
-}
-
-@media (max-width: 768px) {
-	.featureRow {
-		grid-template-columns: 157px 157px;
-		gap: 20px;
-	}
-
-	.featureItem img {
-		width: 157px;
-		height: 157px;
-	}
-
-	.headerActions {
-		gap: 12px;
-	}
-
-	.logoWrap img {
-		width: 96px;
-	}
-
-	.cardGrid {
-		grid-template-columns: 1fr;
-	}
 }
 
 /* === Overlay Global Navigation === */
@@ -554,4 +286,103 @@ body {
 .globalNav ul {
 	border-bottom: 1px solid rgba(255, 255, 255, 0.6);
 	border-top: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* ------------------------------
+  パンくずリスト
+---------------------------------*/
+.breadcrumbContainer {
+	display: flex;
+	width: 100%;
+	height: 36px;
+	border-bottom: 1px solid #7f5539;
+	padding-left: 103px;
+	align-items: center;
+	font-size: 0.75rem;
+	line-height: 1.0;
+}
+
+/* ------------------------------
+  ログインユーザ名表示
+---------------------------------*/
+.loginUserContainer {
+	display: flex;
+	width: 100%;
+	height: 36px;
+	border-bottom: 1px solid #7f5539;
+	padding-left: 103px;
+	align-items: center;
+	font-size: 0.75rem;
+	line-height: 1.0;
+}
+
+.loginUserContainer.noBottomLine {
+	border-bottom: none;
+}
+
+/* ===============================
+	Footer
+=============================== */
+.siteFooter {
+	background: var(--beige);
+	padding-top: 20px;
+	/* ⇒footerLinksにmargin-topを入れても折りたたまれてしまうので。 */
+}
+
+.footerLinks {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	width: 510px;
+	height: 40px;
+	margin-left: 100px;
+}
+
+.footerLink {
+	text-decoration: none;
+	color: var(--text);
+	display: flex;
+	align-items: center;
+	padding-left: 12px;
+	border-left: 2px solid #b392ac;
+}
+
+.footerBrand img {
+	width: 144px;
+	height: 128px;
+	margin-top: 64px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+.snsLinks {
+	display: flex;
+	gap: 40px;
+	justify-content: center;
+	margin: 72px auto 0;
+}
+
+.snsLink img {
+	width: 32px;
+	height: 32px;
+}
+
+.copyrightBar {
+	border-top: 2px solid var(--brown);
+	margin-top: 40px;
+	width: 100%;
+	height: 52px;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+}
+
+.copyright {
+	font-size: .75rem;
+	text-align: center;
+	color: #7f5539;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
 }

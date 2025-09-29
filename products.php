@@ -21,7 +21,7 @@ $stmt = $pdo->query("
 $products = $stmt->fetchAll();
 ?>
 <main class="productListPage">
-	<h1 class="pageTitle">商品一覧</h1>
+	<h1>商品一覧</h1>
 
 	<section class="productGrid" aria-label="商品一覧">
 		<?php foreach ($products as $p): ?>

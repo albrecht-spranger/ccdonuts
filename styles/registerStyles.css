@@ -24,12 +24,6 @@
 	margin-bottom: 8px;
 }
 
-.pageTitle {
-	font-size: 1.8rem;
-	margin: 16px 0 24px;
-	letter-spacing: .04em;
-}
-
 /* Form */
 .registerForm,
 .confirmForm {

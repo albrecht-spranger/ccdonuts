@@ -3,12 +3,6 @@
 	padding: 24px 16px 80px;
 }
 
-.cartPage .pageTitle {
-	font-size: 1.6rem;
-	font-weight: 700;
-	margin: 10px 0 16px;
-}
-
 .cartList {
 	display: grid;
 	gap: 16px;
