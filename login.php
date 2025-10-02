@@ -58,12 +58,12 @@ require "head.php";
 
 				<form method="post" class="loginBox" action="app/loginProcess.php">
 					<div class="formRow">
-						<label for="mail">メールアドレス</label>
+						<label for="mail" class="require">メールアドレス</label>
 						<input id="mail" name="mail" type="email" required value="<?= htmlspecialchars($_POST['mail'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 					</div>
 
 					<div class="formRow">
-						<label for="password">パスワード</label>
+						<label for="password" class="require">パスワード</label>
 						<input id="password" name="password" type="password" required>
 					</div>
 
