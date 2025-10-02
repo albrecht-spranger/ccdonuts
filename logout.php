@@ -1,11 +1,14 @@
 <?php
 // logout.php
-session_start();
-$_SESSION = [];
-if (ini_get("session.use_cookies")) {
-    $params = session_get_cookie_params();
-    setcookie(session_name(), '', time()-42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
-}
-session_destroy();
-header('Location: index.php'); // 望みの遷移先に変更
+declare(strict_types=1);
+require_once __DIR__ . '/app/sessionManager.php';
+require_once __DIR__ . '/app/commonFunctions.php';
+
+if (isset($_SESSION['customer'])) {
+    unset($_SESSION['customer']);
+} else {
+    setFlash('error', 'すでにログアウト済みです。');
+};
+redirect('logoutComplete.php');
 exit;
+?>

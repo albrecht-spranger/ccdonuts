@@ -1,3 +1,10 @@
+<?php
+declare(strict_types=1);
+require_once __DIR__ . '/app/sessionManager.php';
+require_once __DIR__ . '/app/commonFunctions.php';
+require_once __DIR__ . '/app/auth.php';
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -13,7 +20,7 @@ require "head.php";
 	<main class="siteMain">
 		<!-- ログインユーザ名 -->
 		<div class="loginUserContainer noBottomLine">
-			<p>ようこそ　<?= isLoggedIn() ? getLoginUserName() : 'ゲスト' ?> 様</p>
+			<p><?= isLoggedIn() ? getLoginUserName() : 'ようこそ　ゲスト' ?> 様</p>
 		</div>
 
 		<!-- ヒーロー画像 -->

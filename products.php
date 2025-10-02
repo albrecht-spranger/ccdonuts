@@ -1,13 +1,15 @@
 <?php
 // /products.php  （商品一覧）
 declare(strict_types=1);
+require_once __DIR__ . '/app/sessionManager.php';
+require_once __DIR__ . '/app/commonFunctions.php';
+require_once __DIR__ . '/app/auth.php';
 
 $pageTitle = 'CCドーナツ | 商品一覧';
 $breadcrumbs = [
 	['label' => 'TOP', 'url' => 'index.php'],
 	['label' => '商品一覧', 'url' => null]
 ];
-require 'header.php';
 
 // DB 取得
 $pdo = getDbConnection();
@@ -20,7 +22,19 @@ $stmt = $pdo->query("
 ");
 $products = $stmt->fetchAll();
 ?>
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<?php
+$pageTitle = "CCドーナツ | トップ";
+require "head.php";
+?>
+
 <main class="productListPage">
+	<?php
+	require 'header.php';
+	?>
 	<h1>商品一覧</h1>
 
 	<section class="productGrid" aria-label="商品一覧">

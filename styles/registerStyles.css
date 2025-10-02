@@ -22,58 +22,11 @@
 	margin-bottom: 8px;
 }
 
-.loginTitleContainer {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	max-width: 375px;
-	height: 84px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.loginContents {
-	max-width: 375px;
-	height: 380px;
-	padding: 40px 40px 80px 40px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-/* Form */
-.registerForm,
-.confirmForm {
-	border: 2px solid #f7d1cd;
-	padding: 20px 12px;
-}
-
-.formRow {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-}
-
-.formRow.formRow {
-	margin-bottom: 20px;
-}
-
-.formRow label {
-	font-size: 0.75rem;
-	color: #7f5539;
-}
 
 .formRow .note {
 	margin: 4px 0 0;
 	font-size: .85rem;
 	color: var(--muted);
-}
-
-.registerForm input[type="text"],
-.registerForm input[type="email"],
-.registerForm input[type="password"] {
-	border: 1px solid #7f5539;
-	padding: 4px;
-	font-size: 0.75rem;
 }
 
 .registerForm input:focus {
@@ -131,25 +84,6 @@
 .buttons.stacked {
 	flex-direction: column;
 	align-items: stretch;
-}
-
-.primaryBtn,
-.buttons button {
-	padding: 16px 32px;
-	cursor: pointer;
-	display: block;
-	text-align: center;
-	width: 160px;
-	height: 48px;
-	background-color: #7f5539;
-	color: white;
-	font-size: 1rem;
-}
-
-.registerLink {
-	margin-top: 20px;
-	text-align: right;
-	display: block;
 }
 
 /* Complete */

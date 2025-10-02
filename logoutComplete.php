@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 require_once __DIR__ . '/app/sessionManager.php';
 require_once __DIR__ . '/app/commonFunctions.php';
@@ -10,7 +9,7 @@ require_once __DIR__ . '/app/auth.php';
 <html lang="ja">
 
 <?php
-$pageTitle = "CCドーナツ | ログイン完了";
+$pageTitle = "CCドーナツ | ログアウト完了";
 require "head.php";
 ?>
 
@@ -24,7 +23,7 @@ require "head.php";
 		$breadcrumbs = [
 			['label' => 'TOP', 'url' => 'index.php'],
 			['label' => 'ログイン', 'url' => 'login.php'],
-			['label' => 'ログイン完了', 'url' => null],
+			['label' => 'ログアウト完了', 'url' => null],
 		];
 		require "breadcrumbs.php"
 		?>
@@ -38,7 +37,7 @@ require "head.php";
 		<section>
 			<!-- セクションタイトル -->
 			<div class="loginTitleContainer">
-				<h1 class="h1Login">ログイン完了</h1>
+				<h1 class="h1Login">ログアウト完了</h1>
 			</div>
 
 			<div class="loginContents">
@@ -51,10 +50,9 @@ require "head.php";
 				<?php } ?>
 
 				<div class="loginBox">
-					<p class="contentInLoginBox">ログインが完了しました。</p>
-					<p class="contentInLoginBox">引き続きお楽しみください。</p>
+					<p class="contentInLoginBox">ログアウトしました。</p>
 				</div>
-				<a class="loginToAnotherLink" href="checkout.php">購入確認ページへすすむ</a>
+				<a class="loginToAnotherLink" href="login.php">ログインする</a>
 				<a class="loginToAnotherLink" href="index.php">TOPページへもどる</a>
 			</div>
 		</section>

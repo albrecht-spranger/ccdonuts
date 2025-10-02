@@ -1,4 +1,11 @@
 <?php
+
+declare(strict_types=1);
+require_once __DIR__ . '/app/sessionManager.php';
+require_once __DIR__ . '/app/commonFunctions.php';
+require_once __DIR__ . '/app/auth.php';
+require_once __DIR__ . '/db.php';
+
 // productDetail.php
 // 個々のドーナツ詳細ページ（添付PDF準拠）
 // 依存: db.php, header.php, footer.php, productsテーブル（id, name, price, introduction, image_url など）
@@ -8,9 +15,6 @@ $breadcrumbs = [
 	['label' => '商品一覧', 'url' => 'products.php'],
 	['label' => '商品詳細（仮）'],
 ];
-require __DIR__ . '/header.php';
-
-require_once __DIR__ . '/db.php';
 
 // ===== 入力取得 =====
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -182,55 +186,66 @@ $price_label = is_null($prod_price) ? '価格未定' : ('税込　￥' . number_
 	}
 </style>
 
-<main>
-	<section class="detail-hero">
-		<div class="detail-wrap">
-			<div class="detail-grid">
-				<!-- 商品画像 -->
-				<div class="detail-image">
-					<figure>
-						<img src="<?php echo htmlspecialchars($prod_img, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($prod_name, ENT_QUOTES, 'UTF-8'); ?>">
-					</figure>
-				</div>
+<!DOCTYPE html>
+<html lang="ja">
 
-				<!-- 商品情報 -->
-				<div class="detail-info">
-					<h1><?php echo htmlspecialchars($prod_name, ENT_QUOTES, 'UTF-8'); ?></h1>
+<body>
 
-					<div class="price-line"><?php echo htmlspecialchars($price_label, ENT_QUOTES, 'UTF-8'); ?></div>
+	<?php require __DIR__ . '/header.php'; ?>
 
-					<form action="cart_add.php" method="post" class="buy-form">
-						<input type="hidden" name="product_id" value="<?php echo $prod_id; ?>">
-						<!-- CSRF対策トークン（任意: 実装済みなら埋めてください） -->
-						<?php /* <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf'] ?? '', ENT_QUOTES, 'UTF-8') ?>"> */ ?>
+	<main>
+		<section class="detail-hero">
+			<div class="detail-wrap">
+				<div class="detail-grid">
+					<!-- 商品画像 -->
+					<div class="detail-image">
+						<figure>
+							<img src="<?php echo htmlspecialchars($prod_img, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($prod_name, ENT_QUOTES, 'UTF-8'); ?>">
+						</figure>
+					</div>
 
-						<div class="qty-row">
-							<label for="qty">カートに入れる</label>
-							<div class="qty-input">
-								<select id="qty" name="qty" aria-label="数量">
-									<?php for ($i = 1; $i <= 12; $i++): ?>
-										<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-									<?php endfor; ?>
-								</select>
-								<span class="unit">個</span>
+					<!-- 商品情報 -->
+					<div class="detail-info">
+						<h1><?php echo htmlspecialchars($prod_name, ENT_QUOTES, 'UTF-8'); ?></h1>
+
+						<div class="price-line"><?php echo htmlspecialchars($price_label, ENT_QUOTES, 'UTF-8'); ?></div>
+
+						<form action="cart_add.php" method="post" class="buy-form">
+							<input type="hidden" name="product_id" value="<?php echo $prod_id; ?>">
+							<!-- CSRF対策トークン（任意: 実装済みなら埋めてください） -->
+							<?php /* <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf'] ?? '', ENT_QUOTES, 'UTF-8') ?>"> */ ?>
+
+							<div class="qty-row">
+								<label for="qty">カートに入れる</label>
+								<div class="qty-input">
+									<select id="qty" name="qty" aria-label="数量">
+										<?php for ($i = 1; $i <= 12; $i++): ?>
+											<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+										<?php endfor; ?>
+									</select>
+									<span class="unit">個</span>
+								</div>
 							</div>
-						</div>
 
-						<div class="cart-row">
-							<button type="submit" class="cart-btn">カートに入れる</button>
-							<a href="cart.php" class="to-cart">カート</a>
-							<a href="login.php" class="to-login">ログイン</a>
-						</div>
-					</form>
+							<div class="cart-row">
+								<button type="submit" class="cart-btn">カートに入れる</button>
+								<a href="cart.php" class="to-cart">カート</a>
+								<a href="login.php" class="to-login">ログイン</a>
+							</div>
+						</form>
 
-					<div class="desc-box">
-						<?php echo nl2br(htmlspecialchars($prod_desc, ENT_QUOTES, 'UTF-8')); ?>
+						<div class="desc-box">
+							<?php echo nl2br(htmlspecialchars($prod_desc, ENT_QUOTES, 'UTF-8')); ?>
+						</div>
 					</div>
 				</div>
+
 			</div>
+		</section>
+	</main>
 
-		</div>
-	</section>
-</main>
+	<?php require __DIR__ . '/footer.php'; ?>
 
-<?php require __DIR__ . '/footer.php'; ?>
+</body>
+
+</html>

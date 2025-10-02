@@ -1,6 +1,6 @@
 <header class="siteHeader">
 	<div class="headerBar">
-			<!-- hamburger -->
+		<!-- hamburger -->
 		<button class="menuButton" id="menuButton">
 			<img src="images/drawerIcon.svg" alt="Drawer Menu Icon">
 		</button>
@@ -12,17 +12,34 @@
 
 		<!-- ヘッダ右上アイコン -->
 		<div class="headerActions">
-			<a href="<?= isLoggedIn() ? 'logout.php' : 'login.php' ?>" class="actionItem">
-				<div class="iconWrap <?= isLoggedIn() ? 'loggedIn' : '' ?>">
-					<img src="images/loginLogo.svg" alt="<?= isLoggedIn() ? 'ログアウト' : 'ログイン' ?>">
-				</div>
-				<span class="actionLabel"><?= isLoggedIn() ? 'ログアウト' : 'ログイン' ?></span>
-			</a>
+			<!-- ログイン／ログアウトアイコン -->
+			<?php
+			if (isLoggedIn()) {
+			?>
+				<a href="logout.php" class="actionItem" id="logoutBtn">
+					<div class="iconWrap">
+						<img src="images/logoutIcon.png" alt="ログアウト">
+						<span class="actionLabel">ログアウト</span>
+					</div>
+				</a>
+			<?php
+			} else {
+			?>
+				<a href="login.php">
+					<div class="iconWrap">
+						<img src="images/loginLogo.svg" alt="ログイン">
+						<span class="actionLabel">ログイン</span>
+					</div>
+				</a>
+			<?php
+			}
+			?>
+			<!-- カートアイコン -->
 			<a href="cart.php" class="actionItem">
 				<div class="iconWrap">
 					<img src="images/cartLogo.svg" alt="カート">
+					<span class="actionLabel">カート</span>
 				</div>
-				<span class="actionLabel">カート</span>
 			</a>
 		</div>
 	</div>

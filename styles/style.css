@@ -103,39 +103,25 @@ h1 {
 	flex-direction: column;
 	align-items: center;
 	text-decoration: none;
-	color: var(--brown);
 }
 
 .iconWrap {
-	position: relative;
-	width: 36px;
-	height: 36px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .iconWrap img {
 	width: 36px;
 	height: 36px;
 	display: block;
-	z-index: 1;
-	position: relative;
-}
-
-.iconWrap.loggedIn::before {
-	content: "";
-	position: absolute;
-	inset: 50%;
-	width: 32px;
-	height: 32px;
-	transform: translate(-50%, -50%);
-	background: yellow;
-	filter: blur(4px);
-	border-radius: 50%;
-	z-index: 0;
 }
 
 .actionLabel {
 	font-size: .8rem;
 	margin-top: 2px;
+	color: var(--brown);
+	display: block;
 }
 
 /* 検索領域 */
