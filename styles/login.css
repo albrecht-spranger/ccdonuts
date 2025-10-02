@@ -20,17 +20,17 @@
 .loginBox {
 	border: 2px solid #f7d1cd;
 	padding: 20px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
 
 /* 登録画面の枠線のない枠 */
 .registerBox {
 	padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
 
 /* フォーム1つのスタイル */
@@ -47,8 +47,8 @@
 
 /* 必須ラベル用 */
 .formRow label.require::after {
-  content: "（必須）";
-  color: red;
+	content: "（必須）";
+	color: red;
 }
 
 .formRow input[type="text"],
@@ -73,7 +73,7 @@
 }
 
 .loginBox p {
-    text-align: center;
+	text-align: center;
 }
 
 .formRow .note {
@@ -92,8 +92,28 @@
 	background-color: #7f5539;
 	color: white;
 	font-size: 1rem;
-    margin-left: auto;
-    margin-right: auto;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* 確認画面 */
+/* ラベル */
+.confirmLabel {
+	color: #7f5539;
+	font-size: 0.75rem;
+	line-height: 1.0;
+}
+
+/* 値 */
+.confirmValue {
+	color: black;
+	font-size: 0.75rem;
+	line-height: 20px;
+	border-left: 1px solid #7f5539;
+	display: block;
+	height: 20px;
+	padding-left: 4px;
 }
 
 /* 他ページへのリンク */
@@ -104,11 +124,11 @@
 }
 
 /* 2つ並ぶときはその間隔を8pxにする */
-.loginToAnotherLink + .loginToAnotherLink {
-    margin-top: 8px;
+.loginToAnotherLink+.loginToAnotherLink {
+	margin-top: 8px;
 }
 
 .errorMessage {
-    color: red;
-    margin-bottom: 20px;
+	color: red;
+	margin-bottom: 20px;
 }

@@ -18,7 +18,7 @@
 			?>
 				<a href="logout.php" class="actionItem" id="logoutBtn">
 					<div class="iconWrap">
-						<img src="images/logoutIcon.png" alt="ログアウト">
+						<img src="images/runout.png" alt="ログアウト">
 						<span class="actionLabel">ログアウト</span>
 					</div>
 				</a>
@@ -27,7 +27,7 @@
 			?>
 				<a href="login.php">
 					<div class="iconWrap">
-						<img src="images/loginLogo.svg" alt="ログイン">
+						<img src="images/runin.png" alt="ログイン">
 						<span class="actionLabel">ログイン</span>
 					</div>
 				</a>
