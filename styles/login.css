@@ -40,7 +40,8 @@
 	gap: 8px;
 }
 
-.formRow label {
+.formRow label,
+.formRow legend {
 	font-size: 0.75rem;
 	color: #7f5539;
 }

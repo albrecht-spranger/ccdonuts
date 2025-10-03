@@ -5,33 +5,15 @@ require_once __DIR__ . '/app/sessionManager.php';
 require_once __DIR__ . '/app/commonFunctions.php';
 require_once __DIR__ . '/app/auth.php';
 
-$data = $_SESSION['register.data'] ?? []; // 戻り時の下書き
-$fromConfirm = false;
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	if (!check_csrf($_POST['csrf_token'] ?? '')) {
-		http_response_code(400);
-		die('不正なリクエストです（CSRF）');
-	}
-	// 「確認画面から戻る」ケース：セッションの下書きを維持したまま再表示
-	if (isset($_POST['back'])) {
-		$fromConfirm = true;
-		$data = $_SESSION['register.data'] ?? [];
-	} else {
-		// 新規入力のバリデーション
-		$data = collectRegisterInput($_POST);
-		$errors = validateRegister($data);
-		if ($errors) {
-			http_response_code(422);
-		} else {
-			// 確認画面用にセッションへ保存
-			$_SESSION['register.data'] = $data;
-			$_SESSION['register.nonce'] = bin2hex(random_bytes(16)); // 二重送信対策
-			header('Location: registerConfirm.php', true, 303);
-			exit;
-		}
-	}
-}
+// 確認画面からの遷移時はセッションに入力データとエラーが入る
+$data   = $_SESSION['form_data']   ?? [];
+$errors = $_SESSION['form_errors'] ?? [];
+// デバッグ；配列をダンプ
+// echo '<pre>';
+// print_r($data);
+// print_r($errors);
+// echo '</pre>';
+unset($_SESSION['form_data'], $_SESSION['form_errors']); // フラッシュ消費
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +34,7 @@ require "head.php";
 		$breadcrumbs = [
 			['label' => 'TOP', 'url' => 'index.php'],
 			['label' => 'ログイン', 'url' => 'login.php'],
-			['label' => 'ログイン完了', 'url' => null],
+			['label' => '会員登録', 'url' => null],
 		];
 		require "breadcrumbs.php"
 		?>
@@ -69,49 +51,85 @@ require "head.php";
 			</div>
 
 			<div class="loginContents">
-				<form action="registerConfirm.php" method="post" class="registerBox">
+				<form action="registerCheck.php" method="post" class="registerBox">
 					<div class="formRow">
 						<label for="name" class="require">お名前</label>
-						<input id="name" name="name" type="text" required>
+						<?php if (!empty($errors['name'])): ?>
+							<p class="note"><?= htmlspecialchars($errors['name'], ENT_QUOTES, 'UTF-8') ?></p>
+						<?php endif; ?>
+						<input id="name" name="name" type="text" value="<?= htmlspecialchars($data['name'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 					</div>
 
 					<div class="formRow">
 						<label for="furigana" class="require">お名前（フリガナ）</label>
-						<input id="furigana" name="furigana" type="text" required>
+						<?php if (!empty($errors['furigana'])): ?>
+							<p class="note"><?= htmlspecialchars($errors['furigana'], ENT_QUOTES, 'UTF-8') ?></p>
+						<?php endif; ?>
+						<input id="furigana" name="furigana" type="text" required
+							value="<?= htmlspecialchars($data['furigana'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 					</div>
 
-					<div class="formRow">
-						<label for="postcode" class="require">郵便番号</label>
+					<fieldset class="formRow">
+						<legend for="postcode" class="require">郵便番号</legend>
+						<?php if (!empty($errors['postcodeHead'])): ?>
+							<p class="note"><?= htmlspecialchars($errors['postcodeHead'], ENT_QUOTES, 'UTF-8') ?></p>
+						<?php endif; ?>
+						<?php if (!empty($errors['postcodeTail'])): ?>
+							<p class="note"><?= htmlspecialchars($errors['postcodeTail'], ENT_QUOTES, 'UTF-8') ?></p>
+						<?php endif; ?>
 						<div class="postcodePair">
-							<input id="postcodeHead" name="postcodeHead" type="text" inputmode="numeric" pattern="\d{3}" placeholder="123" required>
-							<input id="postcodeTail" name="postcodeTail" type="text" inputmode="numeric" pattern="\d{4}" placeholder="4567" required>
+							<input id="postcodeHead" name="postcodeHead" type="text" inputmode="numeric"
+								pattern="\d{3}" placeholder="123" required
+								value="<?= htmlspecialchars($data['postcodeHead'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+							<input id="postcodeTail" name="postcodeTail" type="text" inputmode="numeric"
+								pattern="\d{4}" placeholder="4567" required
+								value="<?= htmlspecialchars($data['postcodeTail'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 						</div>
-					</div>
+					</fieldset>
 
 					<div class="formRow">
 						<label for="address" class="require">住所</label>
-						<input id="address" name="address" type="text" required>
+						<?php if (!empty($errors['address'])): ?>
+							<p class="note"><?= htmlspecialchars($errors['address'], ENT_QUOTES, 'UTF-8') ?></p>
+						<?php endif; ?>
+						<input id="address" name="address" type="text" required
+							value="<?= htmlspecialchars($data['address'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 					</div>
 
 					<div class="formRow">
 						<label for="mail" class="require">メールアドレス</label>
-						<input id="mail" name="mail" type="email" required>
+						<?php if (!empty($errors['mail'])): ?>
+							<p class="note"><?= htmlspecialchars($errors['mail'], ENT_QUOTES, 'UTF-8') ?></p>
+						<?php endif; ?>
+						<input id="mail" name="mail" type="email" required
+							value="<?= htmlspecialchars($data['mail'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 					</div>
 
 					<div class="formRow">
 						<label for="mailConfirm" class="require">メールアドレス確認用</label>
-						<input id="mailConfirm" name="mailConfirm" type="email" required>
+						<?php if (!empty($errors['mailConfirm'])): ?>
+							<p class="note"><?= htmlspecialchars($errors['mailConfirm'], ENT_QUOTES, 'UTF-8') ?></p>
+						<?php endif; ?>
+						<input id="mailConfirm" name="mailConfirm" type="email" required
+							value="<?= htmlspecialchars($data['mailConfirm'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 					</div>
 
 					<div class="formRow">
 						<label for="password" class="require">パスワード</label>
 						<p class="note">半角英数字8文字以上20文字以内で入力してください。※記号の使用はできません</p>
-						<input id="password" name="password" type="password" minlength="8" maxlength="20" pattern="[A-Za-z0-9]+" required>
+						<?php if (!empty($errors['password'])): ?>
+							<p class="note"><?= htmlspecialchars($errors['password'], ENT_QUOTES, 'UTF-8') ?></p>
+						<?php endif; ?>
+						<input id="password" name="password" type="password" minlength="8" maxlength="20"
+							pattern="[A-Za-z0-9]+" required value="">
 					</div>
 
 					<div class="formRow">
 						<label for="passwordConfirm" class="require">パスワード確認用</label>
-						<input id="passwordConfirm" name="passwordConfirm" type="password" required>
+						<?php if (!empty($errors['passwordConfirm'])): ?>
+							<p class="note"><?= htmlspecialchars($errors['passwordConfirm'], ENT_QUOTES, 'UTF-8') ?></p>
+						<?php endif; ?>
+						<input id="passwordConfirm" name="passwordConfirm" type="password" required value="">
 					</div>
 
 					<div class="buttons">
