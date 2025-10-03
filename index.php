@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 require_once __DIR__ . '/app/sessionManager.php';
 require_once __DIR__ . '/app/commonFunctions.php';
@@ -17,7 +18,8 @@ require "head.php";
 	<!-- ヘッダ -->
 	<?php require "header.php" ?>
 
-	<main class="siteMain">
+	<!-- <main class="siteMain"> -->
+	<main id="pageContent" class="pageContent">
 		<!-- ログインユーザ名 -->
 		<div class="loginUserContainer noBottomLine">
 			<p><?= isLoggedIn() ? getLoginUserName() : 'ようこそ　ゲスト' ?> 様</p>
@@ -87,7 +89,6 @@ require "head.php";
 	</main>
 
 	<?php require "footer.php"; ?>
-	<script src="scripts/menu.js"></script>
 </body>
 
 </html>

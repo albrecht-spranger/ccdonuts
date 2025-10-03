@@ -1,4 +1,40 @@
 <header class="siteHeader">
+	<!-- ドロワーメニュー(縦型) -->
+	<nav id="globalNavV" class="globalNavV">
+		<!-- 中央アイコン -->
+		<img src="images/pcHeaderLogo.svg" alt="C.C. Donuts" class="globalNavVIcon">
+		<!-- メニュークローズボタン -->
+		<button id="globalNavVClose">
+			<img src="images/closeBtn.svg">
+		</button>
+		<!-- メニューリスト -->
+		<ul>
+			<li><a href="index.php">TOP</a></li>
+			<li><a href="products.php">商品一覧</a></li>
+			<li><a href="#">よくある質問</a></li>
+			<li><a href="#">お問い合わせ</a></li>
+			<li><a href="#">当サイトのポリシー</a></li>
+		</ul>
+	</nav>
+
+	<!-- ドロワーメニュー(横型) -->
+	<nav id="globalNavH" class="globalNavH">
+		<!-- 中央アイコン -->
+		<img src="images/pcHeaderLogo.svg" alt="C.C. Donuts" class="globalNavHIcon">
+		<!-- メニュークローズボタン -->
+		<button id="globalNavHClose">
+			<img src="images/closeBtn.svg">
+		</button>
+		<!-- メニューリスト -->
+		<ul>
+			<li><a href="index.php">TOP</a></li>
+			<li><a href="products.php">商品一覧</a></li>
+			<li><a href="#">よくある質問</a></li>
+			<li><a href="#">お問い合わせ</a></li>
+			<li><a href="#">当サイトのポリシー</a></li>
+		</ul>
+	</nav>
+
 	<div class="headerBar">
 		<!-- hamburger -->
 		<button class="menuButton" id="menuButton">
@@ -52,15 +88,4 @@
 			<input class="searchInput" type="text" name="q" placeholder="キーワードを入力" />
 		</form>
 	</div>
-
-	<!-- スマホ用開閉メニュー（必要に応じて項目追加） -->
-	<nav id="globalNav" class="globalNav" hidden>
-		<button class="menuClose" id="menuClose" aria-label="メニューを閉じる">✕</button>
-		<ul>
-			<li><a href="products.php">商品一覧</a></li>
-			<li><a href="faq.php">よくある質問</a></li>
-			<li><a href="policy.php">当サイトのポリシー</a></li>
-			<li><a href="contact.php">お問い合わせ</a></li>
-		</ul>
-	</nav>
 </header>

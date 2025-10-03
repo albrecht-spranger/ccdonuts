@@ -74,7 +74,7 @@ CREATE TABLE `customers` (
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `mail` (`mail`)
-) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1004 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,7 +83,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1002,'茸筍','キノコタケノコ','123','4567','山','kinoko_takenoko@yama.com','$2y$10$HhAz0ioB9TkPnOqHgcmxZeiLAWQajt7gU1yLtrMt6QD0mhkw9Stuq');
+INSERT INTO `customers` VALUES (1002,'茸筍','キノコタケノコ','123','4567','山','kinoko_takenoko@yama.com','$2y$10$HhAz0ioB9TkPnOqHgcmxZeiLAWQajt7gU1yLtrMt6QD0mhkw9Stuq'),(1003,'テスト1','テストイチ','123','4567','山','test1@yama.com','$2y$10$rg1mBMieuJGvXbMF4aU8eOaVd60LizwRtcGT9FOx3xE/PpTCfyxCy');
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -246,4 +246,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-29 15:32:00
+-- Dump completed on 2025-10-03 15:27:22
