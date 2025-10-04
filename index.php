@@ -26,9 +26,9 @@ require "head.php";
 		</div>
 
 		<!-- ヒーロー画像 -->
-		<section class="hero">
+		<div class="hero">
 			<img src="images/pcHero.jpg" alt="ドーナツと手の写真">
-		</section>
+		</div>
 
 		<!-- 特集 -->
 		<section class="featureBlocks">
@@ -36,16 +36,18 @@ require "head.php";
 				<div class="featureItem">
 					<div class="featureBadge">新商品</div>
 					<img src="images/summerCitrus.jpg" alt="新商品の画像">
-					<p class="featureCaption">サマーシトラス</p>
+					<p class="newItemCaption">サマーシトラス</p>
 				</div>
-				<div class="featureItem">
+				<div class="lifeWithDonuts">
 					<img src="images/lifeWithDonuts.jpg" alt="ドーナツのある生活">
-					<p class="featureCaption">ドーナツのある生活</p>
+					<p class="lifeWithDonutsCaption">ドーナツのある生活</p>
 				</div>
 			</div>
-			<div class="featureItem linkAll wide">
-				<img src="images/productBanner.jpg" alt="商品一覧">
-				<p class="featureCaption">商品一覧</p>
+			<div class="link2Products">
+				<a href="products.php">
+					<img src="images/productBanner.jpg" alt="商品一覧">
+				</a>
+				<p class="link2ProductsCaption">商品一覧</p>
 			</div>
 		</section>
 
@@ -75,10 +77,11 @@ require "head.php";
 					["rank" => 6, "title" => "ストロベリークラッシュ（5個入り）", "price" => "1,800", "image" => "strawberryCrush.jpg"],
 				];
 				foreach ($items as $it):
-				?>
+					?>
 					<article class="cardItem">
 						<span class="rankBadge"><?php echo $it["rank"]; ?></span>
-						<img src="images/<?php echo $it['image']; ?>" alt="<?php echo htmlspecialchars($it['title'], ENT_QUOTES, 'UTF-8'); ?>">
+						<img src="images/<?php echo $it['image']; ?>"
+							alt="<?php echo htmlspecialchars($it['title'], ENT_QUOTES, 'UTF-8'); ?>">
 						<h3 class="cardTitle"><?php echo $it["title"]; ?></h3>
 						<p class="cardPrice">税込 ￥<?php echo $it["price"]; ?></p>
 						<button class="cartButton" type="button">カートに入れる</button>

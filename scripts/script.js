@@ -36,9 +36,10 @@ document.addEventListener('keydown', (e) => {
 // 横ハンバーガーメニュー
 const globalNavH = document.getElementById('globalNavH');
 const menuHandle = document.getElementById('menuButton');
-const pageContent= document.getElementById('pageContent');
+const pageContent = document.getElementById('pageContent');
 
-let navWidth = 320;     // 実測で上書き
+let navWidth = 583;     // 実測で上書き
+let contentLeft = 0;
 let startX = 0;       // ドラッグ開始位置
 let startNavX = 0;       // ドラッグ開始時のナビX
 let dragging = false;
@@ -46,23 +47,37 @@ const OPEN_THRESHOLD_RATE = 0.35; // しきい値（幅の35%）
 
 /** 画面中央の max-width:1366px に合わせて、コンテンツ左端を算出しCSS変数へ */
 function setContentLeft() {
-	const maxW = 1366;
-	const vw = window.innerWidth;
-	const contentW = Math.min(maxW, vw);
-	const left = (vw - contentW) / 2;
+	// 左端の基準にする要素：中央寄せレイアウトに載っている要素を選ぶ
+	const anchor = document.querySelector('.breadcrumbContainer') || document.querySelector('.headerBar') || document.body;
+
+	// 実測の左端（サブピクセルもそのまま使う）
+	const left = anchor.getBoundingClientRect().left;
+	contentLeft = left;
 	document.documentElement.style.setProperty('--content-left', `${left}px`);
 }
 
 /** ナビ幅を実測し、CSS変数へ */
 function measureNav() {
 	// 一瞬だけ表示して幅を測る（オフスクリーンのままでもOK）
-	const prev = globalNavH.style.transform;
+	const prevTransform = globalNavH.style.transform;
+	const prevTransition = globalNavH.style.transition;
+	globalNavH.style.transition = 'none';
 	globalNavH.style.transform = 'translateX(0)'; // レイアウト確定
-	navWidth = Math.round(globalNavH.getBoundingClientRect().width);
+	// 	navWidth = Math.round(globalNavH.getBoundingClientRect().width);
 	document.documentElement.style.setProperty('--nav-width', `${navWidth}px`);
 	// 元に戻す（CSS変数 --nav-x が最終状態を持つ）
-	globalNavH.style.transform = prev;
+	globalNavH.style.transform = prevTransform;
+	// 次のフレームでtransitionを戻すと安全
+	requestAnimationFrame(() => {
+		globalNavH.style.transition = prevTransition;
+	});
 }
+
+/** 隠し位置（完全に画面外）= -(navWidth + contentLeft) */
+function getHiddenX() {
+	return -(navWidth + contentLeft);
+}
+
 
 /** --nav-x をセット（px） */
 function setNavX(px) {
@@ -72,19 +87,25 @@ function setNavX(px) {
 /** 現在の --nav-x を取得（px数値） */
 function getNavX() {
 	const v = getComputedStyle(document.documentElement).getPropertyValue('--nav-x').trim();
-	return parseFloat(v || -navWidth);
+	return parseFloat(v || getHiddenX());
 }
 
 /** 開く／閉じる スナップ */
 function snapOpen() {
 	setNavX(0);
 	menuHandle.setAttribute('aria-expanded', 'true');
+	globalNavH.removeAttribute('inert');
 	globalNavH.setAttribute('aria-hidden', 'false');
 }
+
 function snapClose() {
-	setNavX(-navWidth);
+	setNavX(getHiddenX());
 	menuHandle.setAttribute('aria-expanded', 'false');
+	// 先にフォーカスを外へ戻す（ここが重要）
+	menuHandle.focus();
+	// それから隠す
 	globalNavH.setAttribute('aria-hidden', 'true');
+	globalNavH.setAttribute('inert', '');
 }
 
 /** ドラッグ開始（ハンバーガーのみ） */
@@ -107,8 +128,8 @@ function onPointerMove(e) {
 	const x = (e.clientX ?? 0) - startX;
 	// ドラッグは右方向のみ有効
 	const delta = Math.max(0, x);
-	const next = Math.min(0, startNavX + delta); // 最大でも0（全開）
-	setNavX(Math.max(-navWidth, next));          // 最小は -navWidth（全隠し）
+	const next = Math.min(0, startNavX + delta);        // 最大でも0（全開）
+	setNavX(Math.max(getHiddenX(), next));              // 最小は hiddenX（完全オフ）
 }
 
 /** ドラッグ終了：しきい値でスナップ */
@@ -117,10 +138,14 @@ function onPointerUp(e) {
 	dragging = false;
 	globalNavH.classList.remove('dragging');
 
-	const exposed = navWidth + getNavX(); // 露出ピクセル= 全幅 - 隠れてる幅
-	const threshold = navWidth * OPEN_THRESHOLD_RATE;
-	if (exposed >= threshold) snapOpen();
-	else snapClose();
+	// 進捗率 = (現在位置 - 隠し位置) / (0 - 隠し位置)
+	const hiddenX = getHiddenX();
+	const progress = (getNavX() - hiddenX) / (0 - hiddenX); // 0〜1
+	if (progress >= OPEN_THRESHOLD_RATE) {
+		snapOpen();
+	} else {
+		snapClose();
+	}
 }
 
 /** ×ボタンで閉じる（左へスライドアウト） */

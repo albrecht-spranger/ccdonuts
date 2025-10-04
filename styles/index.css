@@ -23,10 +23,12 @@
 .featureBlocks {
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
-	padding: 20px;
+	gap: 80px;
+	padding-top: 80px;
+	padding-bottom: 80px;
 }
 
+.lifeWithDonuts,
 .featureItem {
 	position: relative;
 	overflow: hidden;
@@ -46,63 +48,126 @@
 	display: block;
 }
 
-.featureItem.wide img {
+.lifeWithDonuts img {
+	width: 480px;
+	height: 480px;
+	object-fit: cover;
+	object-position: top;
+	display: block;
+}
+
+.newItemCaption {
+	font-size: 2.25rem;
+	font-weight: 600;
+	position: absolute;
+	right: 12px;
+	bottom: 12px;
+	color: white;
+}
+
+.lifeWithDonutsCaption {
+	font-size: 2.25rem;
+	font-weight: 600;
+	position: absolute;
+	bottom: 40px;
+	color: white;
+	left: 50%;
+	/* 親の幅の中央 */
+	transform: translateX(-50%);
+	/* 自分の幅の半分だけ左に戻す（左右中央に） */
+	width: fit-content;
+	/* ← 内容の幅に合わせる */
+	white-space: nowrap;
+	/* ← 改行を禁止する */
+}
+
+.link2Products {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.link2Products img {
 	width: 1040px;
 	height: 257px;
 	object-fit: cover;
+}
+
+.link2ProductsCaption {
+	position: absolute;
+	right: 24px;
+	bottom: 24px;
+	font-family: "Noto Serif JP", serif;
+	font-size: 2.25rem;
+	font-weight: 500;
+	color: #7f5539;
 }
 
 .featureBadge {
 	position: absolute;
 	top: 8px;
 	left: 8px;
+	width: 140px;
+	height: 140px;
 	background: #ff6b6b;
 	color: #fff;
-	padding: 4px 8px;
-	border-radius: 6px;
-	font-size: .85rem;
-	font-weight: 700;
-}
-
-.featureCaption {
-	position: absolute;
-	bottom: 8px;
-	left: 8px;
-	right: 8px;
-	color: #fff;
-	text-shadow: 0 1px 2px rgba(0, 0, 0, .4);
-	font-weight: 700;
-	letter-spacing: .02em;
+	border-radius: 50%;
+	font-size: 2.25rem;
+	font-weight: 500;
+	text-align: center;
+	line-height: 140px;
 }
 
 /* Philosophy */
 .philosophyBlock {
 	position: relative;
-	padding: 64px 20px;
-	background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.25)), url('../images/philosophy.jpg') center/cover no-repeat;
+	padding-top: 200px;
 	color: #fff;
 	text-align: center;
+	height: 664px;
+	width: 100%;
+
+	background-color: rgba(255, 255, 255, 0);
+	/* 背景：黒の半透明塗り＋画像の半透明をレイヤー合成 */
+	/* background: url('../images/philosophy.jpg'), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)); */
+	/* background-size: cover; */
+	/* background-position: center; */
+	/* background-repeat: no-repeat; */
+	/* blend-modeで黒と画像を合成 */
+	/* background-blend-mode: multiply; */
+}
+
+.philosophyBlock::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: url("../images/philosophy.jpg") center/cover no-repeat;
+	opacity: .5;
+	/* 画像だけ50% */
 }
 
 .philosophyTitle {
 	font-size: 2rem;
+	font-weight: 800;
 	margin: 0;
 }
 
 .philosophySub {
-	margin: 6px 0 8px;
-	opacity: .9;
+	margin-top: 20px;
+	font-size: 1.25rem;
+	font-weight: 500;
 }
 
 .philosophyCopy .en {
 	display: block;
-	font-size: 1.25rem;
-	margin-bottom: 4px;
+	font-size: 1.5rem;
+	margin-top: 40px;
 }
 
 .philosophyCopy .ja {
 	display: block;
-	font-size: 1rem;
+	font-size: 1.5rem;
+	margin-top: 20px;
 }
 
 /* Ranking */
@@ -204,17 +269,18 @@
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
-	.cardGrid {
-		grid-template-columns: repeat(2, 1fr);
-	}
-
-	.featureBlocks {
-		grid-template-columns: 1fr;
-	}
-}
-
 @media (max-width: 768px) {
+	.hero img {
+		height: 200px;
+	}
+
+	/* Features */
+	.featureBlocks {
+		gap: 20px;
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+
 	.featureRow {
 		grid-template-columns: 157px 157px;
 		gap: 20px;
@@ -225,15 +291,65 @@
 		height: 157px;
 	}
 
-	.headerActions {
-		gap: 12px;
+	.lifeWithDonuts img {
+		width: 157px;
+		height: 157px;
 	}
 
-	.logoWrap img {
-		width: 96px;
+	.newItemCaption {
+		font-size: 0.75rem;
+		right: 4px;
+		bottom: 4px;
 	}
 
-	.cardGrid {
-		grid-template-columns: 1fr;
+	.lifeWithDonutsCaption {
+		font-size: 0.75rem;
+		bottom: 16px;
+	}
+
+	.link2Products img {
+		width: 335px;
+		height: 83px;
+	}
+
+	.link2ProductsCaption {
+		right: 4px;
+		bottom: 4px;
+		font-size: 0.75rem;
+	}
+
+	.featureBadge {
+		top: 4px;
+		left: 4px;
+		width: 40px;
+		height: 40px;
+		font-size: 0.75rem;
+		line-height: 40px;
+	}
+
+	/* Philosophy */
+	.philosophyBlock {
+		padding-top: 100px;
+		height: 568px;
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.25)), url('../images/philosophy.jpg') top/cover no-repeat;
+	}
+
+	.philosophyTitle {
+		font-size: 1.5rem;
+	}
+
+	.philosophySub {
+		margin-top: 20px;
+		font-size: 1rem;
+	}
+
+	.philosophyCopy .en {
+		font-size: 1.25rem;
+		margin-top: 60px;
+	}
+
+	.philosophyCopy .ja {
+		font-size: 1rem;
+		margin-top: 12px;
 	}
 }

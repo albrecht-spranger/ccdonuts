@@ -11,7 +11,9 @@
 	<link rel="stylesheet" href="styles/login.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Serif+JP:wght@200..900&display=swap"
+		rel="stylesheet">
 	<!-- JavaScript；deferを付けてDOM完成後に読み込み -->
 	<script src="scripts/script.js" defer></script>
 </head>
