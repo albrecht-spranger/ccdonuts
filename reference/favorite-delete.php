@@ -6,7 +6,7 @@ if (isset($_SESSION['customer'])) {
 	$pdo=new PDO('mysql:host=localhost;dbname=shop;charset=utf8', 
 		'staff', 'password');
 	$sql=$pdo->prepare(
-		'delete from favorite where customer_id=? and product_id=?');
+		'delete from favorite where customer_id=? and productId=?');
 	$sql->execute([$_SESSION['customer']['id'], $_REQUEST['id']]);
 	echo 'お気に入りから商品を削除しました。';
 	echo '<hr>';

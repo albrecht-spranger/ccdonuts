@@ -86,7 +86,7 @@ require "head.php";
 						<p class="cardPrice">税込 ￥<?php echo $it["price"]; ?></p>
 						<form action="cart.php" method="post" class="cartButton">
 							<input type="hidden" name="csrfToken" value="<?= htmlspecialchars($_SESSION['csrfToken'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-							<input type="hidden" name="product_id" value="<?= $pid ?>">
+							<input type="hidden" name="productId" value="<?= $pid ?>">
 							<input type="hidden" name="quantity" value="1">
 							<button type="submit" name="action" value="add" class="btnAddToCart">カートに入れる</button>
 						</form>

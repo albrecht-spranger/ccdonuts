@@ -2,10 +2,10 @@
 // app/commonFunctions.php
 declare(strict_types=1);
 
-function redirect(string $path): void
+function redirect(string $path, int $statusCode = 303): void
 {
-	header('Location: ' . $path);
-	exit;
+    header('Location: ' . $path, true, $statusCode);
+    exit;
 }
 
 // Simple flash messages

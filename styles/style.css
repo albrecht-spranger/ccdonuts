@@ -320,6 +320,10 @@ body {
 	line-height: 1.0;
 }
 
+.loginUserContainer.noBottomLine {
+	border-bottom: none;
+}
+
 /* ===============================
 	Footer
 =============================== */

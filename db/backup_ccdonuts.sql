@@ -95,13 +95,13 @@ DROP TABLE IF EXISTS `favorites`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `favorites` (
-  `customer_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`customer_id`,`product_id`),
-  KEY `idx_favorites_product` (`product_id`),
-  CONSTRAINT `fk_favorites_customer` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_favorites_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `customerId` int(11) NOT NULL,
+  `productId` int(11) NOT NULL,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`customerId`,`productId`),
+  KEY `idx_favorites_product` (`productId`),
+  CONSTRAINT `fk_favorites_customer` FOREIGN KEY (`customerId`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_favorites_product` FOREIGN KEY (`productId`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -123,17 +123,17 @@ DROP TABLE IF EXISTS `payments`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `payments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `purchase_id` int(11) NOT NULL,
-  `creditcard_id` int(11) DEFAULT NULL,
+  `purchaseId` int(11) NOT NULL,
+  `creditcardId` int(11) DEFAULT NULL,
   `amount` decimal(10,2) NOT NULL,
   `status` enum('authorized','captured','failed','cancelled','refunded') NOT NULL DEFAULT 'authorized',
-  `paid_at` datetime DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `paidAt` datetime DEFAULT NULL,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `idx_payments_purchase` (`purchase_id`),
-  KEY `idx_payments_creditcard` (`creditcard_id`),
-  CONSTRAINT `fk_payments_creditcard` FOREIGN KEY (`creditcard_id`) REFERENCES `creditcards` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `fk_payments_purchase` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `idx_payments_purchase` (`purchaseId`),
+  KEY `idx_payments_creditcard` (`creditcardId`),
+  CONSTRAINT `fk_payments_creditcard` FOREIGN KEY (`creditcardId`) REFERENCES `creditcards` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `fk_payments_purchase` FOREIGN KEY (`purchaseId`) REFERENCES `purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -183,13 +183,13 @@ DROP TABLE IF EXISTS `purchase_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `purchase_details` (
-  `purchase_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `purchase_count` int(11) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`purchase_id`,`product_id`),
-  KEY `idx_purchase_details_product` (`product_id`),
-  CONSTRAINT `fk_pdetail_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_pdetail_purchase` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `purchaseId` int(11) NOT NULL,
+  `productId` int(11) NOT NULL,
+  `purchaseCount` int(11) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`purchaseId`,`productId`),
+  KEY `idx_purchase_details_product` (`productId`),
+  CONSTRAINT `fk_pdetail_product` FOREIGN KEY (`productId`) REFERENCES `products` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_pdetail_purchase` FOREIGN KEY (`purchaseId`) REFERENCES `purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -211,13 +211,13 @@ DROP TABLE IF EXISTS `purchases`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `purchases` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `customer_id` int(11) NOT NULL,
-  `purchase_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `customerId` int(11) NOT NULL,
+  `purchaseDate` datetime NOT NULL DEFAULT current_timestamp(),
   `status` enum('pending','paid','shipped','cancelled','refunded') NOT NULL DEFAULT 'pending',
-  `total_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `totalAmount` decimal(10,2) NOT NULL DEFAULT 0.00,
   PRIMARY KEY (`id`),
-  KEY `idx_purchases_customer_date` (`customer_id`,`purchase_date`),
-  CONSTRAINT `fk_purchases_customer` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON UPDATE CASCADE
+  KEY `idx_purchases_customer_date` (`customerId`,`purchaseDate`),
+  CONSTRAINT `fk_purchases_customer` FOREIGN KEY (`customerId`) REFERENCES `customers` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -247,4 +247,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-06 15:25:09
+-- Dump completed on 2025-10-07  2:05:28

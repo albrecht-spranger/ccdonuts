@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // 入力取り出し
 $action     = (string)($_POST['action'] ?? 'add');            // add / update / remove / clear
-$productId  = (int)($_POST['product_id'] ?? 0);
+$productId  = (int)($_POST['productId'] ?? 0);
 $quantity   = (int)($_POST['quantity'] ?? 1);
 
 // 量の妥当性（例：1〜99に丸め）
@@ -105,7 +105,5 @@ switch ($action) {
 $cart['updatedAt'] = time();
 $_SESSION['cart'] = $cart;
 
-// どこへ戻す？ 基本はカート画面。元ページに戻したい場合は hiddenで backTo を渡す運用もOK
-$backTo = filter_var($_POST['backTo'] ?? '', FILTER_VALIDATE_URL);
-redirect($backTo ?: 'cartView.php', 303); // PRG: 303 See Other
+redirect('cartView.php', 303); // PRG: 303 See Other
 exit;
