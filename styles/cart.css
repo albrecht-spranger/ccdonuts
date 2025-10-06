@@ -1,4 +1,87 @@
 /* ===== カート ===== */
+
+
+.cartSection {
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 80px 80px 120px;
+	display: flex;
+	flex-direction: column;
+	gap: 80px;
+	align-items: center;
+}
+
+.cartSummary {
+	width: 1020px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 2px solid #ffd233;
+	padding-top: 40px;
+	padding-bottom: 40px;
+
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+	align-items: center;
+}
+
+.cartSummaryText {
+	text-align: center;
+	font-size: 1.5rem;
+	font-weight: 500;
+	color: #7f5539;
+	line-height: 1.0;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.totalPurchase {
+	color: #bf0000;
+}
+
+.cartItemDetail {
+	display: flex;
+	gap: 40px;
+}
+
+.cartItem img {
+	width: 335px;
+	height: 335px;
+}
+
+.cartItemDetailRight {
+	display: flex;
+	width: 100%;
+}
+
+/* 買い物を続けるボタン */
+.continueShoppingBtn {
+	width: 260px;
+	text-align: center;
+	font-size: 1.25rem;
+	color: white;
+	padding-top: 16px;
+	padding-bottom: 16px;
+	background-color: #7f5539;
+}
+
+/* 購入確認へ進むボタン */
+.purchaseConfirmationBtn {
+	width: 260px;
+	text-align: center;
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: white;
+	padding-top: 16px;
+	padding-bottom: 16px;
+	background-color: #bf0000;
+}
+
+
+
+
 .cartPage {
 	padding: 24px 16px 80px;
 }
@@ -88,32 +171,6 @@
 	color: #b71b26;
 	text-decoration: underline;
 	cursor: pointer;
-}
-
-.cartSummary {
-	margin-top: 18px;
-	display: grid;
-	gap: 14px;
-}
-
-.cartSummary .sumLine {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 16px;
-}
-
-.cartSummary .totals {
-	text-align: right;
-}
-
-.cartSummary .subtotal {
-	font-weight: 800;
-	font-size: 1.15rem;
-}
-
-.cartSummary .items {
-	margin-top: 4px;
 }
 
 .btnPrimary,

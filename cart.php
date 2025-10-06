@@ -1,143 +1,111 @@
 <?php
-// /cart.php
+// cart.php  - カート更新用（表示なし）
 declare(strict_types=1);
 require_once __DIR__ . '/app/sessionManager.php';
 require_once __DIR__ . '/app/commonFunctions.php';
 require_once __DIR__ . '/app/auth.php';
-require_once __DIR__ . '/app/cartLib.php';
 
-$pageTitle = 'CC Donuts | カート';
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+	redirect('cartView.php'); // GET直叩きはビューへ
+	exit;
+}
 
-// ---- アクション処理 ----
-$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-$action = $_REQUEST['action'] ?? '';
+// CSRFチェック
+// $postedToken = $_POST['csrfToken'] ?? '';
+// $sessionToken = $_SESSION['csrfToken'] ?? '';
+// if (!hash_equals((string)$sessionToken, (string)$postedToken)) {
+// 	setFlash('error', '不正なリクエストです（CSRF）。');
+// 	redirect('cartView.php', 303);
+// 	exit;
+// }
 
-if ($method === 'POST') {
-	// CSRF
-	if (empty($_POST['csrfToken']) || !hash_equals($_SESSION['csrfToken'] ?? '', (string)$_POST['csrfToken'])) {
-		setFlash('error', '不正なリクエストです。もう一度お試しください。');
-		header('Location: cart.php');
-		exit;
-	}
-	if ($action === 'add') {
-		$pid = (int)($_POST['product_id'] ?? 0);
-		$qty = (int)($_POST['qty'] ?? 1);
-		if ($pid > 0) {
-			cart_add($pid, $qty);
-			setFlash('done', 'カートに商品を追加しました。');
-		}
-		header('Location: cart.php');
-		exit;
-	} elseif ($action === 'update') {
-		$pid = (int)($_POST['product_id'] ?? 0);
-		$qty = (int)($_POST['qty'] ?? 1);
-		if ($pid > 0) {
-			cart_update_qty($pid, $qty);
-			setFlash('done', '数量を更新しました。');
-		}
-		header('Location: cart.php');
-		exit;
-	} elseif ($action === 'remove') {
-		$pid = (int)($_POST['product_id'] ?? 0);
-		if ($pid > 0) {
-			cart_remove($pid);
-			setFlash('done', 'カートから削除しました。');
-		}
-		header('Location: cart.php');
+// 入力取り出し
+$action     = (string)($_POST['action'] ?? 'add');            // add / update / remove / clear
+$productId  = (int)($_POST['product_id'] ?? 0);
+$quantity   = (int)($_POST['quantity'] ?? 1);
+
+// 量の妥当性（例：1〜99に丸め）
+if ($quantity < 0) $quantity = 0;
+if ($quantity > 99) $quantity = 99;
+
+// DBから商品を必ず取得（価格等は“絶対に”クライアントから信用しない）
+$pdo = getDbConnection();
+
+if ($action !== 'clear') {
+	$stmt = $pdo->prepare("SELECT id, name, price, image
+        FROM products
+        WHERE id = ? LIMIT 1
+    ");
+	$stmt->execute([$productId]);
+	$product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+	if (!$product) {
+		setFlash('error', '指定の商品が見つかりません。');
+		redirect('cartView.php', 303);
 		exit;
 	}
 }
 
-// 画面用データ
-$cart = cart_get();
-$tot  = cart_totals();
-$err  = getFlash('error');
-$done = getFlash('done');
+// セッション上のカート構造
+// $_SESSION['cart'] = [ 'items' => [productId => ['id','name','price','image','qty']], 'updatedAt' => int ]
+$cart = $_SESSION['cart'] ?? ['items' => [], 'updatedAt' => time()];
+$items = &$cart['items'];
 
-require 'header.php';
-?>
-<main class="cartPage">
-	<h1 class="pageTitle">カート</h1>
+switch ($action) {
+	case 'add':
+		// 既に入っていれば加算、なければ新規
+		if (isset($items[$product['id']])) {
+			$items[$product['id']]['qty'] = min(99, (int)$items[$product['id']]['qty'] + max(1, $quantity));
+		} else {
+			$items[$product['id']] = [
+				'id'    => (int)$product['id'],
+				'name'  => (string)$product['name'],
+				'price' => (int)$product['price'],          // 税込価格ならそのまま、税別なら後で計算
+				'image' => (string)($product['image'] ?? ''),
+				'qty'   => max(1, $quantity),
+			];
+		}
+		setFlash('success', 'カートに商品を追加しました。');
+		break;
 
-	<?php if ($err): ?><p class="alert error"><?= htmlspecialchars($err, ENT_QUOTES, 'UTF-8'); ?></p><?php endif; ?>
-	<?php if ($done): ?><p class="alert done"><?= htmlspecialchars($done, ENT_QUOTES, 'UTF-8'); ?></p><?php endif; ?>
+	case 'update':
+		if ($productId <= 0 || !isset($items[$productId])) {
+			setFlash('error', '更新対象の商品がカートにありません。');
+			redirect('cartView.php', 303);
+			exit;
+		}
+		if ($quantity === 0) {
+			unset($items[$productId]);
+			setFlash('success', '商品をカートから削除しました。');
+		} else {
+			$items[$productId]['qty'] = $quantity;
+			// 価格改ざん対策：サーバ側価格で都度上書きしておくと安心
+			$items[$productId]['price'] = (int)$product['price'];
+			setFlash('success', '数量を更新しました。');
+		}
+		break;
 
-	<?php if ($cart): ?>
-		<?php /* 上部サマリー（ユーザー名と商品の間） */ ?>
-		<section class="cartTopSummary" aria-label="カートサマリー">
-			<div class="cartTopSummary__inner">
-				<div class="cartTopSummary__text">
-					<div class="cartTopSummary__items">現在　商品<?php echo (int)$tot['items']; ?>点</div>
-					<div class="cartTopSummary__subtotal">ご注文小計：<span class="tax">税込</span> ￥<?php echo number_format($tot['subtotal']); ?></div>
-				</div>
-				<a class="btnPrimary cartTopSummary__cta" href="checkout.php">購入確認へ進む</a>
-			</div>
-		</section>
-	<?php endif; ?>
+	case 'remove':
+		if (isset($items[$productId])) {
+			unset($items[$productId]);
+			setFlash('success', '商品をカートから削除しました。');
+		}
+		break;
 
-	<?php if (!$cart): ?>
-		<p>カートに商品がありません。</p>
-		<p><a class="btnSecondary" href="products.php">買い物を続ける</a></p>
-	<?php else: ?>
+	case 'clear':
+		$items = [];
+		setFlash('success', 'カートを空にしました。');
+		break;
 
-		<section class="cartList" aria-label="カート商品一覧">
-			<?php foreach ($cart as $row): ?>
-				<?php
-				$pid   = (int)$row['id'];
-				$name  = (string)$row['name'];
-				$price = (int)$row['price'];
-				$qty   = (int)$row['qty'];
-				$img   = trim((string)($row['image'] ?? ''));
-				$imgSrc = $img !== '' ? "images/" . rawurlencode($img) : "images/noimage.jpg";
-				?>
-				<article class="cartItem">
-					<a href="product_detail.php?id=<?php echo $pid; ?>" class="thumb" aria-label="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>">
-						<img src="<?= htmlspecialchars($imgSrc, ENT_QUOTES, 'UTF-8'); ?>" alt="<?= htmlspecialchars($_SESSION['csrfToken'], ENT_QUOTES, 'UTF-8'); ?>" width="120" height="120" loading="lazy">
-					</a>
+	default:
+		setFlash('error', '不明な操作です。');
+		break;
+}
 
-					<div class="meta">
-						<h2 class="name">
-							<a href="product_detail.php?id=<?php echo $pid; ?>"><?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?></a>
-						</h2>
-						<p class="unitPrice">個 <span class="tax">税込</span> ￥<?php echo number_format($price); ?></p>
-					</div>
+$cart['updatedAt'] = time();
+$_SESSION['cart'] = $cart;
 
-					<form class="qtyForm" method="post" action="cart.php">
-						<input type="hidden" name="csrfToken" value="<?= htmlspecialchars($_SESSION['csrfToken'], ENT_QUOTES, 'UTF-8'); ?>">
-						<input type="hidden" name="action" value="update">
-						<input type="hidden" name="product_id" value="<?php echo $pid; ?>">
-						<label>数量
-							<input type="number" name="qty" min="1" value="<?php echo $qty; ?>" inputmode="numeric" pattern="[0-9]*">
-						</label>
-						<button type="submit" class="btnSmall">再計算</button>
-					</form>
-
-					<form class="removeForm" method="post" action="cart.php" onsubmit="return confirm('削除しますか？');">
-						<input type="hidden" name="csrfToken" value="<?= htmlspecialchars($_SESSION['csrfToken'], ENT_QUOTES, 'UTF-8'); ?>">
-						<input type="hidden" name="action" value="remove">
-						<input type="hidden" name="product_id" value="<?php echo $pid; ?>">
-						<button type="submit" class="linkDanger">削除する</button>
-					</form>
-				</article>
-			<?php endforeach; ?>
-		</section>
-
-		<section class="cartSummary">
-			<div class="sumLine">
-				<div>
-					<a class="btnSecondary" href="products.php">買い物を続ける</a>
-				</div>
-				<div class="totals">
-					<div class="subtotal">ご注文小計：<span class="tax">税込</span> ￥<?php echo number_format($tot['subtotal']); ?></div>
-					<div class="items">現在　商品<?php echo (int)$tot['items']; ?>点</div>
-				</div>
-			</div>
-
-			<div class="actions">
-				<a class="btnPrimary" href="checkout.php">購入確認へ進む</a>
-			</div>
-		</section>
-
-	<?php endif; ?>
-</main>
-<?php require 'footer.php'; ?>
+// どこへ戻す？ 基本はカート画面。元ページに戻したい場合は hiddenで backTo を渡す運用もOK
+$backTo = filter_var($_POST['backTo'] ?? '', FILTER_VALIDATE_URL);
+redirect($backTo ?: 'cartView.php', 303); // PRG: 303 See Other
+exit;

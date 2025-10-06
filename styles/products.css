@@ -1,75 +1,96 @@
 /* ===== 商品一覧 ===== */
-.productListPage {
-	padding: 24px 16px 64px;
+.productsSection {
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
 }
 
-.productGrid {
+.productsSubSection {
+	max-width: 1200px;
+	padding: 80px 60px 120px;
+}
+
+.productsSubTitle {
+	font-size: 1.5rem;
+	color: #7f5539;
+	text-align: center;
+}
+
+.cardGrid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-	gap: 28px;
-	align-items: start;
+	gap: 60px;
+	padding-top: 120px;
+	grid-template-columns: repeat(3, 320px);
 }
 
-.productCard {
-	display: grid;
-	grid-template-rows: auto auto auto auto;
-	gap: 10px;
+.cardItem {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
 }
 
-.productCard .thumb {
-	display: block;
+.cardItem img {
 	width: 320px;
 	height: 320px;
-	margin: 0 auto;
-	overflow: hidden;
-	border-radius: 8px;
-	background: #f6f6f6;
-}
-
-.productCard .thumb img {
-	width: 100%;
-	height: 100%;
 	object-fit: cover;
-	/* 短辺フィットで320×320にトリミング */
 	display: block;
 }
 
-.productName {
-	font-size: 1.05rem;
-	font-weight: 600;
-	line-height: 1.4;
-	margin: 0;
+.cardTitle {
+	font-size: 1.5rem;
+	color: #7f5539;
+	text-align: justify;
 }
 
-.productName a {
-	color: inherit;
-	text-decoration: none;
+.cardPrice {
+	color: #bf0000;
 }
 
-.productName a:hover {
-	text-decoration: underline;
-}
-
-.productPrice {
-	margin: 0;
-	font-weight: 700;
-}
-
-.addToCartForm {
-	margin-top: 2px;
-}
-
-.btnAddToCart {
-	display: inline-block;
-	padding: 10px 14px;
-	border-radius: 8px;
-	border: 1px solid #ddd;
-	background: #111;
+.cartButton {
+	background: #7f5539;
+	width: 260px;
+	height: 52px;
 	color: #fff;
-	font-weight: 600;
 	cursor: pointer;
+	text-align: center;
+	line-height: 52px;
 }
 
-.btnAddToCart:hover {
-	opacity: .9;
+/* Responsive */
+@media (max-width: 768px) {
+	.productsSection {
+		margin: 0;
+	}
+
+	.productsSubSection {
+		max-width: 100%;
+		padding: 20px 0 80px;
+	}
+
+	.productsSubTitle {
+		font-size: 1.0rem;
+	}
+
+	.cardGrid {
+		gap: 20px;
+		padding: 80px 20px 0;
+		grid-template-columns: repeat(2, 157.5px);
+	}
+
+	.cardItem img {
+		width: 157px;
+		height: 157px;
+	}
+
+	.cardTitle {
+		font-size: 1rem;
+	}
+
+	.cartButton {
+		width: 148px;
+		height: 36px;
+		line-height: 36px;
+		font-size: 0.75rem;
+	}
 }

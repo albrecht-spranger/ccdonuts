@@ -5,68 +5,116 @@ require_once __DIR__ . '/app/sessionManager.php';
 require_once __DIR__ . '/app/commonFunctions.php';
 require_once __DIR__ . '/app/auth.php';
 
-$pageTitle = 'CCドーナツ | 商品一覧';
-$breadcrumbs = [
-	['label' => 'TOP', 'url' => 'index.php'],
-	['label' => '商品一覧', 'url' => null]
-];
-
 // DB 取得
 $pdo = getDbConnection();
 // 必要に応じて WHERE 句を調整（例: published=1 / valid=1 など）
 $stmt = $pdo->query("
-    SELECT id, name, price, image
+    SELECT id, name, price, image, isNew, isSet
     FROM products
     WHERE 1
-    ORDER BY id DESC
+    ORDER BY id ASC
 ");
-$products = $stmt->fetchAll();
+$allPproducts = $stmt->fetchAll();
+
+// isSetで振り分け
+$productsMain = []; // isSet=0
+$productsSet  = []; // isSet=1
+foreach ($allPproducts as $p) {
+	if ((int)$p['isSet'] === 1) {
+		$productsSet[] = $p;
+	} else {
+		$productsMain[] = $p;
+	}
+}
+
+/**
+ * 商品カード群を描画する関数
+ *
+ * @param array $products  商品配列
+ * @return void
+ */
+function renderProductCards(array $products): void
+{
+	foreach ($products as $p):
+		$pid   = (int)$p['id'];
+		$name  = (string)($p['name'] ?? '');
+		$price = (int)($p['price'] ?? 0);
+		$img   = trim((string)($p['image'] ?? ''));
+		$imgSrc = $img !== '' ? "images/" . rawurlencode($img) : "images/noimage.jpg";
+		$isNew = (int)($p['isNew'] ?? 0);
+?>
+		<article class="cardItem">
+			<a href="productDetail.php?id=<?= $pid ?>" class="thumb" aria-label="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>">
+				<img src="<?= htmlspecialchars($imgSrc, ENT_QUOTES, 'UTF-8'); ?>"
+					alt="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>"
+					loading="lazy">
+			</a>
+			<h4 class="cardTitle">
+				<a href="productDetail.php?id=<?= $pid ?>">
+					<?= ($isNew ? '【新作】' : '') . htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>
+				</a>
+			</h4>
+			<p class="cardPrice">税込　￥<?= number_format($price) ?></p>
+
+			<form action="cart.php" method="post" class="cartButton">
+				<input type="hidden" name="csrfToken" value="<?= htmlspecialchars($_SESSION['csrfToken'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+				<input type="hidden" name="product_id" value="<?= $pid ?>">
+				<input type="hidden" name="quantity" value="1">
+				<button type="submit" name="action" value="add" class="btnAddToCart">カートに入れる</button>
+			</form>
+		</article>
+<?php
+	endforeach;
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
 
 <?php
-$pageTitle = "CCドーナツ | トップ";
+$pageTitle = "CCドーナツ | 商品一覧";
 require "head.php";
 ?>
 
-<main class="productListPage">
-	<?php
-	require 'header.php';
-	?>
-	<h1>商品一覧</h1>
+<body>
+	<!-- ヘッダ -->
+	<?php require "header.php" ?>
 
-	<section class="productGrid" aria-label="商品一覧">
-		<?php foreach ($products as $p): ?>
-			<?php
-			$pid   = (int)$p['id'];
-			$name  = $p['name'] ?? '';
-			$price = (int)($p['price'] ?? 0);
-			$img   = trim((string)$p['image'] ?? '');
-			// 画像パス（images ディレクトリに配置済みのファイル名想定）
-			$imgSrc = $img !== '' ? "images/" . rawurlencode($img) : "images/noimage.jpg";
-			?>
-			<article class="productCard">
-				<a href="productDetail.php?id=<?php echo $pid; ?>" class="thumb" aria-label="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>">
-					<img src="<?= htmlspecialchars($imgSrc, ENT_QUOTES, 'UTF-8'); ?>"
-						alt="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>"
-						width="320" height="320"
-						loading="lazy">
-				</a>
-				<h2 class="productName">
-					<a href="productDetail.php?id=<?php echo $pid; ?>"><?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?></a>
-				</h2>
-				<p class="productPrice">税込　￥<?php echo number_format($price); ?></p>
+	<main>
+		<!-- パンくずリスト -->
+		<?php
+		$breadcrumbs = [
+			['label' => 'TOP', 'url' => 'index.php'],
+			['label' => '商品一覧', 'url' => null],
+		];
+		require "breadcrumbs.php"
+		?>
 
-				<form action="cart.php" method="post" class="addToCartForm">
-					<input type="hidden" name="csrfToken" value="<?= htmlspecialchars($_SESSION['csrfToken'], ENT_QUOTES, 'UTF-8'); ?>">
-					<input type="hidden" name="product_id" value="<?php echo $pid; ?>">
-					<button type="submit" name="action" value="add" class="btnAddToCart">カートに入れる</button>
-				</form>
-			</article>
-		<?php endforeach; ?>
-	</section>
-</main>
+		<!-- ログインユーザ名 -->
+		<div class="loginUserContainer">
+			<p><?= isLoggedIn() ? getLoginUserName() : 'ようこそ　ゲスト' ?> 様</p>
+		</div>
 
-<?php require 'footer.php'; ?>
+		<section class="productsSection">
+			<h1 class="sectionTitle">商品一覧</h1>
+
+			<section class="productsSubSection">
+				<h2 class="productsSubTitle">メインメニュー</h2>
+				<div class="cardGrid">
+					<?php renderProductCards($productsMain); ?>
+				</div>
+			</section>
+			<section class="productsSubSection">
+				<h2 class="productsSubTitle">バラエティセット</h2>
+				<div class="cardGrid">
+					<?php renderProductCards($productsSet); ?>
+				</div>
+			</section>
+		</section>
+	</main>
+
+	<!-- フッタ -->
+	<?php require "footer.php"; ?>
+</body>
+
+</html>

@@ -178,20 +178,6 @@
 	width: fit-content;
 }
 
-.cardGrid {
-	display: grid;
-	gap: 60px;
-	padding-top: 120px;
-	grid-template-columns: repeat(3, 320px);
-}
-
-.cardItem {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 20px;
-}
-
 .rankBadge {
 	display: block;
 	width: 60px;
@@ -226,33 +212,6 @@
 
 .cardGrid .cardItem:nth-child(6) .rankBadge {
 	background: #E8C2CA;
-}
-
-.cardItem img {
-	width: 320px;
-	height: 320px;
-	object-fit: cover;
-	display: block;
-}
-
-.cardTitle {
-	font-size: 1.5rem;
-	color: #7f5539;
-	text-align: justify;
-}
-
-.cardPrice {
-	color: #bf0000;
-}
-
-.cartButton {
-	background: #7f5539;
-	width: 260px;
-	height: 52px;
-	color: #fff;
-	cursor: pointer;
-	text-align: center;
-	line-height: 52px;
 }
 
 /* Responsive */
@@ -363,26 +322,5 @@
 		height: 35px;
 		font-size: 1.0rem;
 		line-height: 35px;
-	}
-
-	.cardGrid {
-		gap: 20px;
-		padding: 80px 20px;
-		grid-template-columns: repeat(2, 157.5px);
-	}
-
-	.cardItem img {
-		width: 157px;
-		height: 157px;
-	}
-
-	.cardTitle {
-		font-size: 1rem;
-	}
-
-	.cartButton {
-		width: 148px;
-		height: 36px;
-		line-height: 36px;
 	}
 }
