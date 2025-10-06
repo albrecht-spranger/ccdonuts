@@ -53,17 +53,17 @@ require "head.php";
 
 		<!-- Philosophy -->
 		<section class="philosophyBlock">
-			<h2 class="philosophyTitle">Philosophy</h2>
-			<p class="philosophySub">私たちの信念</p>
-			<blockquote class="philosophyCopy">
-				<span class="en">"Creating Connections!"</span>
-				<span class="ja">「ドーナツでつながる」</span>
-			</blockquote>
+			<div class="philosophyCopy">
+				<h2 class="philosophyTitle">Philosophy</h2>
+				<p class="philosophySub">私たちの信念</p>
+				<p class="en">"Creating Connections!"</p>
+				<p class="ja">「ドーナツでつながる」</p>
+			</div>
 		</section>
 
 		<!-- ランキング -->
 		<section class="rankingSection">
-			<h2 class="sectionTitle">人気ランキング</h2>
+			<h1 class="sectionTitle">人気ランキング</h1>
 
 			<div class="cardGrid">
 				<?php
@@ -77,7 +77,7 @@ require "head.php";
 					["rank" => 6, "title" => "ストロベリークラッシュ（5個入り）", "price" => "1,800", "image" => "strawberryCrush.jpg"],
 				];
 				foreach ($items as $it):
-					?>
+				?>
 					<article class="cardItem">
 						<span class="rankBadge"><?php echo $it["rank"]; ?></span>
 						<img src="images/<?php echo $it['image']; ?>"

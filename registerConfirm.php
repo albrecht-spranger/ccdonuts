@@ -8,9 +8,9 @@ require_once __DIR__ . '/app/auth.php';
 // nonceチェック(★未実装)
 // if (empty($_SESSION['register.data']) || empty($_SESSION['register.nonce'])) {
 if (empty($_SESSION['register.data'])) {
-    // 検証を通っていない or 期限切れ → 入力へ戻す
-    header('Location: registerInput.php', true, 303);
-    exit;
+	// 検証を通っていない or 期限切れ → 入力へ戻す
+	header('Location: registerInput.php', true, 303);
+	exit;
 }
 
 // 確認表示用データとワンタイムnonceを取得
@@ -60,9 +60,7 @@ require "head.php";
 
 		<!-- 会員登録の入力確認セクション -->
 		<section>
-			<div class="loginTitleContainer">
-				<h1 class="h1Login">入力確認</h1>
-			</div>
+			<h1 class="loginTitle">入力確認</h1>
 
 			<div class="loginContents">
 				<form action="registerComplete.php" method="post" class="registerBox">

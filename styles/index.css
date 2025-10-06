@@ -126,28 +126,27 @@
 	text-align: center;
 	height: 664px;
 	width: 100%;
-
-	background-color: rgba(255, 255, 255, 0);
-	/* 背景：黒の半透明塗り＋画像の半透明をレイヤー合成 */
-	/* background: url('../images/philosophy.jpg'), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)); */
-	/* background-size: cover; */
-	/* background-position: center; */
-	/* background-repeat: no-repeat; */
-	/* blend-modeで黒と画像を合成 */
-	/* background-blend-mode: multiply; */
+	background-color: rgba(128, 128, 128, 1);
 }
 
 .philosophyBlock::before {
+	/* ⇒beforeはphilosophyBlockの子要素 */
 	content: "";
 	position: absolute;
 	inset: 0;
 	background: url("../images/philosophy.jpg") center/cover no-repeat;
 	opacity: .5;
-	/* 画像だけ50% */
+	z-index: 0;
+}
+
+.philosophyCopy {
+	/* ⇒philosophyBlock::beforeと並列の子要素。beforeより前面に描画 */
+	position: relative;
+	z-index: 100;
 }
 
 .philosophyTitle {
-	font-size: 2rem;
+	font-size: 2.25rem;
 	font-weight: 800;
 	margin: 0;
 }
@@ -171,67 +170,62 @@
 }
 
 /* Ranking */
-.sectionTitle {
-	font-size: 1.4rem;
-	margin: 24px 20px 8px;
+.rankingSection {
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 80px;
+	padding-bottom: 120px;
+	width: fit-content;
 }
 
 .cardGrid {
 	display: grid;
-	gap: 16px;
-	padding: 0 20px 24px;
-	grid-template-columns: repeat(3, 1fr);
+	gap: 60px;
+	padding-top: 120px;
+	grid-template-columns: repeat(3, 320px);
 }
 
 .cardItem {
-	/* 枠線削除 */
-	border: none;
-	border-radius: 10px;
-	padding: 12px;
-	text-align: center;
-	position: relative;
-	background: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
 }
 
 .rankBadge {
-	position: absolute;
-	top: 12px;
-	left: 12px;
-	width: 32px;
-	height: 32px;
-	border-radius: 0;
-	/* 正方形 */
+	display: block;
+	width: 60px;
+	height: 60px;
 	color: #fff;
-	font-weight: 700;
-	font-size: .95rem;
-	display: grid;
-	place-items: center;
-	z-index: 1;
+	font-weight: 500;
+	font-size: 1.5rem;
+	line-height: 60px;
+	text-align: center;
 }
 
 /* 背景色を順位ごとに */
 .cardGrid .cardItem:nth-child(1) .rankBadge {
-	background: var(--rank1);
+	background: #ffd233;
 }
 
 .cardGrid .cardItem:nth-child(2) .rankBadge {
-	background: var(--rank2);
+	background: #cccccc;
 }
 
 .cardGrid .cardItem:nth-child(3) .rankBadge {
-	background: var(--rank3);
+	background: #d27c2c;
 }
 
 .cardGrid .cardItem:nth-child(4) .rankBadge {
-	background: var(--rank4);
+	background: #E8C2CA;
 }
 
 .cardGrid .cardItem:nth-child(5) .rankBadge {
-	background: var(--rank5);
+	background: #E8C2CA;
 }
 
 .cardGrid .cardItem:nth-child(6) .rankBadge {
-	background: var(--rank6);
+	background: #E8C2CA;
 }
 
 .cardItem img {
@@ -239,33 +233,26 @@
 	height: 320px;
 	object-fit: cover;
 	display: block;
-	margin: 0 auto 8px;
-	/* 角丸なし */
-	border-radius: 0;
 }
 
 .cardTitle {
-	font-size: 1rem;
-	margin: 8px 0;
+	font-size: 1.5rem;
+	color: #7f5539;
+	text-align: justify;
 }
 
 .cardPrice {
-	color: #b10000;
-	font-weight: 700;
-	margin: 4px 0 10px;
+	color: #bf0000;
 }
 
 .cartButton {
-	background: var(--brown);
+	background: #7f5539;
+	width: 260px;
+	height: 52px;
 	color: #fff;
-	border: none;
-	padding: 10px 12px;
-	border-radius: 6px;
 	cursor: pointer;
-}
-
-.cartButton:hover {
-	background: var(--brown-deep);
+	text-align: center;
+	line-height: 52px;
 }
 
 /* Responsive */
@@ -331,7 +318,17 @@
 	.philosophyBlock {
 		padding-top: 100px;
 		height: 568px;
-		background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.25)), url('../images/philosophy.jpg') top/cover no-repeat;
+
+	}
+
+	.philosophyBlock::before {
+		/* ⇒beforeはphilosophyBlockの子要素 */
+		background-image: url("../images/philosophy.jpg");
+		background-repeat: no-repeat;
+		background-size: 315%;
+		/* 元画像の50%で表示 */
+		background-position: top center;
+		/* 画像の上端を領域の上端に合わせる */
 	}
 
 	.philosophyTitle {
@@ -351,5 +348,41 @@
 	.philosophyCopy .ja {
 		font-size: 1rem;
 		margin-top: 12px;
+	}
+
+	/* Ranking */
+	.rankingSection {
+		width: 100%;
+		margin: 0;
+		padding-top: 20px;
+		padding-bottom: 82px;
+	}
+
+	.rankBadge {
+		width: 35px;
+		height: 35px;
+		font-size: 1.0rem;
+		line-height: 35px;
+	}
+
+	.cardGrid {
+		gap: 20px;
+		padding: 80px 20px;
+		grid-template-columns: repeat(2, 157.5px);
+	}
+
+	.cardItem img {
+		width: 157px;
+		height: 157px;
+	}
+
+	.cardTitle {
+		font-size: 1rem;
+	}
+
+	.cartButton {
+		width: 148px;
+		height: 36px;
+		line-height: 36px;
 	}
 }

@@ -46,9 +46,7 @@ require "head.php";
 
 		<!-- 会員登録セクション -->
 		<section>
-			<div class="loginTitleContainer">
-				<h1 class="h1Login">会員登録</h1>
-			</div>
+			<h1 class="loginTitle">会員登録</h1>
 
 			<div class="loginContents">
 				<form action="registerCheck.php" method="post" class="registerBox">

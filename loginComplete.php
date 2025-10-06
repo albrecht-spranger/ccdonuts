@@ -37,9 +37,7 @@ require "head.php";
 		<!-- ログインセクション -->
 		<section>
 			<!-- セクションタイトル -->
-			<div class="loginTitleContainer">
-				<h1 class="h1Login">ログイン完了</h1>
-			</div>
+			<h1 class="loginTitle">ログイン完了</h1>
 
 			<div class="loginContents">
 				<!-- エラー表示 -->

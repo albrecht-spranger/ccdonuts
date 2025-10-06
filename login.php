@@ -42,12 +42,9 @@ require "head.php";
 		<!-- ログインセクション -->
 		<section>
 			<!-- セクションタイトル -->
-			<div class="loginTitleContainer">
-				<h1 class="h1Login">ログイン</h1>
-			</div>
+			<h1 class="loginTitle">ログイン</h1>
 
 			<div class="loginContents">
-
 				<!-- エラー表示 -->
 				<?php
 				$error = getFlash('error');

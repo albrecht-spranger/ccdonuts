@@ -1,12 +1,17 @@
 /* ===== ログイン関連共通 ===== */
-.loginTitleContainer {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	max-width: 375px;
-	height: 84px;
-	margin-left: auto;
-	margin-right: auto;
+.loginTitle {
+	width: 100%;
+	text-align: center;
+	padding-top: 32px;
+	padding-bottom: 32px;
+	font-size: 1.25rem;
+	color: black;
+	text-decoration-line: underline;
+	text-decoration-thickness: 2px;
+	text-decoration-style: solid;
+	text-decoration-color: #ffd233;
+	/* 文字からの距離 */
+	text-underline-offset: 12px;
 }
 
 .loginContents {
