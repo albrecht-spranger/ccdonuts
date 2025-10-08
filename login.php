@@ -53,7 +53,7 @@ require "head.php";
 					<div class="errorMessage"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></div>
 				<?php } ?>
 
-				<form method="post" class="loginBox" action="app/loginProcess.php">
+				<form method="post" class="loginBox" action="loginProcess.php">
 					<div class="formRow">
 						<label for="mail" class="require">メールアドレス</label>
 						<input id="mail" name="mail" type="email" required value="<?= htmlspecialchars($_POST['mail'] ?? '', ENT_QUOTES, 'UTF-8') ?>">

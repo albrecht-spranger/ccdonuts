@@ -1,9 +1,9 @@
 <?php
-// /app/loginProcess.php
+// loginProcess.php
 declare(strict_types=1);
-require_once __DIR__ . '/sessionManager.php';
-require_once __DIR__ . '/commonFunctions.php';
-require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/app/sessionManager.php';
+require_once __DIR__ . '/app/commonFunctions.php';
+require_once __DIR__ . '/app/auth.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 	setFlash('error', '不正なリクエストです。もう一度お試しください。');
@@ -19,10 +19,10 @@ if ($mail === '' || $pass === '') {
 	exit;
 }
 
-$user = attemptLogin($mail, $pass);
-if ($user) {
-	$_SESSION['customer'] = $user;
-	redirect('../loginComplete.php'); // ← 成功時は完了ページへ
+$customer = attemptLogin($mail, $pass);
+if ($customer) {
+	$_SESSION['customer'] = $customer;
+	redirect('loginComplete.php'); // ← 成功時は完了ページへ
 	exit;
 } else {
 	setFlash('error', 'メールアドレスまたはパスワードが違います。');

@@ -6,7 +6,6 @@
 	<link rel="stylesheet" href="styles/style.css">
 	<link rel="stylesheet" href="styles/index.css">
 	<link rel="stylesheet" href="styles/products.css">
-	<link rel="stylesheet" href="styles/productDetail.css">
 	<link rel="stylesheet" href="styles/cart.css">
 	<link rel="stylesheet" href="styles/login.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">

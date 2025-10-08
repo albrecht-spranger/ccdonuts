@@ -3,14 +3,18 @@
 declare(strict_types=1);
 require_once __DIR__ . '/dbConnect.php';
 
-function attemptLogin(string $mail, string $password): ?string {
+function attemptLogin(string $mail, string $password): ?array
+{
     $pdo = getDbConnection();
-    $sql = $pdo->prepare('SELECT name, password FROM customers WHERE mail = ?');
+    $sql = $pdo->prepare('SELECT id, name, password FROM customers WHERE mail = ?');
     $sql->execute([$mail]);
     $user = $sql->fetch(PDO::FETCH_ASSOC);
     // ユーザーが存在し、かつパスワードが正しければ返す
     if ($user && password_verify($password, $user['password'])) {
-        return $user['name'];
+        return [
+            'id'   => (int)$user['id'],
+            'name' => (string)$user['name'],
+        ];
     }
 
     // 失敗時は null
@@ -21,7 +25,7 @@ function getLoginUserName(): ?string
 {
     // ⇒?stringとするとstring、または、nullを返す。
     // ⇒stringとするとstringしか返せないので、下のコードを...?? "";とする必要あり
-    return $_SESSION['customer'] ?? null;
+    return $_SESSION['customer']['name'] ?? null;
 }
 
 function isLoggedIn(): bool
@@ -37,13 +41,15 @@ function requireLogin(): void
     }
 }
 
-function norm(string $s): string {
+function norm(string $s): string
+{
     // 全角→半角（英数・カナ・スペース）してtrim
     $s = mb_convert_kana($s, 'asKV', 'UTF-8');
     return trim($s);
 }
 
-function collectRegisterInput(array $src): array {
+function collectRegisterInput(array $src): array
+{
     return [
         'name'            => norm($src['name']            ?? ''),
         'furigana'        => norm($src['furigana']        ?? ''),
@@ -57,7 +63,8 @@ function collectRegisterInput(array $src): array {
     ];
 }
 
-function validateRegister(array $d): array {
+function validateRegister(array $d): array
+{
     $errors = [];
 
     if ($d['name'] === '') $errors['name'] = '名前が未入力です';

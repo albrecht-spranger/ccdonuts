@@ -57,8 +57,118 @@
 	line-height: 52px;
 }
 
+/* ===== 商品詳細 ===== */
+.detailSection {
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 80px 80px 120px;
+	display: flex;
+	gap: 40px;
+	align-items: start;
+}
+
+.detailImage img {
+	width: 540px;
+	height: 540px;
+	object-fit: cover;
+	display: block;
+}
+
+.detailTitle {
+	font-size: 1.5rem;
+	color: #7f5539;
+	height: 48px;
+	border-bottom: 1px solid #E6CCB2;
+	padding-top: 4px;
+	font-weight: 600;
+}
+
+.descBox {
+	width: 100%;
+	line-height: 1.6;
+	text-align: justify;
+	font-size: 1.5rem;
+	font-weight: 500;
+	color: #7F5539;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	border-bottom: 1px solid #E6CCB2;
+}
+
+.priceLine {
+	margin-top: 40px;
+	display: block;
+	color: #bf0000;
+	font-size: 1.5rem;
+}
+
+.buyForm {
+	margin-top: 40px;
+	height: 52px;
+	display: flex;
+	align-items: end;
+}
+
+.qtyBox {
+	display: inline-block;
+	width: 80px;
+	height: 100%;
+	border: 1px solid #7F5539;
+	font-size: 1.5rem;
+	line-height: 1.0;
+	text-align: right;
+	box-sizing: border-box;
+	margin: 0;
+}
+
+.qtyLabel {
+	font-size: 1.5rem;
+	font-weight: 500;
+	margin-left: 8px;
+}
+
+.addToCartBtn {
+	background: #7f5539;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+	padding: 16px 60px;
+	font-size: 1.25rem;
+	line-height: 1.0;
+	margin-left: 20px;
+	border: none;
+}
+
+#favoriteBtn {
+	display: inline-flex;
+	border: 1px solid #7F5539;
+	width: 52px;
+	height: 100%;
+	background-color: #fff;
+	margin-left: 8px;
+	box-sizing: border-box;
+	cursor: pointer;
+	color: #bf0000;
+	align-items: center;
+	justify-content: center;
+}
+
+#favoriteBtn .icon {
+	width: 36px;
+	height: 36px;
+	display: none;
+}
+
+#favoriteBtn .icon.show {
+	display: block;
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
+
+	/* ===== 商品一覧 ===== */
 	.productsSection {
 		margin: 0;
 	}
@@ -92,5 +202,71 @@
 		height: 36px;
 		line-height: 36px;
 		font-size: 0.75rem;
+	}
+
+	/* ===== 商品詳細 ===== */
+	.detailSection {
+		max-width: 100%;
+		margin: 0;
+		padding: 20px 20px 80px;
+		gap: 20px;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.detailImage img {
+		width: 335px;
+		height: 335px;
+	}
+
+	.detailTitle {
+		font-size: 1.0rem;
+		height: 56px;
+		border-bottom: 1px solid #E6CCB2;
+		padding: 0 10px;
+		font-weight: 600;
+		line-height: 56px;
+	}
+
+	.descBox {
+		font-size: 1.0rem;
+		color: #7F5539;
+		padding: 20px 10px;
+		border-bottom: 1px solid #E6CCB2;
+	}
+
+	.priceLine {
+		margin: 20px 0 0;
+		font-size: 1.0rem;
+		padding: 0 10px;
+	}
+
+	.buyForm {
+		margin-top: 40px;
+		height: 36px;
+		padding: 0 10px;
+	}
+
+	.qtyBox {
+		width: 56px;
+		font-size: 1.0rem;
+		text-align: center;
+	}
+
+	.qtyLabel {
+		font-size: 1.0rem;
+		margin-left: 4px;
+	}
+
+	.addToCartBtn {
+		padding: 12px 38px;
+		font-size: 0.75rem;
+		line-height: 1.0;
+		margin-left: 11.5px;
+	}
+
+	#favoriteBtn {
+		width: 36px;
+		margin-left: 4px;
 	}
 }
