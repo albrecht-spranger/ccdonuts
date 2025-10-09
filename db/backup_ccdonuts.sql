@@ -111,6 +111,7 @@ CREATE TABLE `favorites` (
 
 LOCK TABLES `favorites` WRITE;
 /*!40000 ALTER TABLE `favorites` DISABLE KEYS */;
+INSERT INTO `favorites` VALUES (1003,1,'2025-10-09 14:18:27'),(1003,8,'2025-10-09 09:36:16');
 /*!40000 ALTER TABLE `favorites` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,6 +200,7 @@ CREATE TABLE `purchase_details` (
 
 LOCK TABLES `purchase_details` WRITE;
 /*!40000 ALTER TABLE `purchase_details` DISABLE KEYS */;
+INSERT INTO `purchase_details` VALUES (1,2,5),(1,6,4),(2,12,6);
 /*!40000 ALTER TABLE `purchase_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,11 +216,11 @@ CREATE TABLE `purchases` (
   `customerId` int(11) NOT NULL,
   `purchaseDate` datetime NOT NULL DEFAULT current_timestamp(),
   `status` enum('pending','paid','shipped','cancelled','refunded') NOT NULL DEFAULT 'pending',
-  `totalAmount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `totalAmount` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_purchases_customer_date` (`customerId`,`purchaseDate`),
   CONSTRAINT `fk_purchases_customer` FOREIGN KEY (`customerId`) REFERENCES `customers` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,6 +229,7 @@ CREATE TABLE `purchases` (
 
 LOCK TABLES `purchases` WRITE;
 /*!40000 ALTER TABLE `purchases` DISABLE KEYS */;
+INSERT INTO `purchases` VALUES (1,1003,'2025-10-09 14:36:10','pending',15200),(2,1003,'2025-10-09 14:58:17','pending',16800);
 /*!40000 ALTER TABLE `purchases` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -247,4 +250,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-07  2:05:28
+-- Dump completed on 2025-10-09 15:29:26

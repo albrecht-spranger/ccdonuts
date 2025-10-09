@@ -143,8 +143,18 @@ require __DIR__ . '/head.php';
 			<section class="pch2Section">
 				<h2 class="pch2Title">お支払い方法</h2>
 				<dl class="pcItem">
-					<dt class="pcItemLeft">振込先</dt>
-					<dd class="pcItemRight">振込先口座・振込名義・支払期限は、注文確定後の画面でご案内します。</dd>
+					<dt class="pcItemLeft">お支払い</dt>
+					<dd class="pcItemRight">銀行振込</dd>
+					<dt class="pcItemLeft">銀行名</dt>
+					<dd class="pcItemRight">ゆうちょ銀行</dd>
+					<dt class="pcItemLeft">支店名</dt>
+					<dd class="pcItemRight">〇〇支店</dd>
+					<dt class="pcItemLeft">口座種別</dt>
+					<dd class="pcItemRight">当座</dd>
+					<dt class="pcItemLeft">口座番号</dt>
+					<dd class="pcItemRight">1234567</dd>
+					<dt class="pcItemLeft">口座名義</dt>
+					<dd class="pcItemRight">カ）シーシードーナツ</dd>
 				</dl>
 			</section>
 

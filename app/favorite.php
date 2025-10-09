@@ -72,7 +72,7 @@ try {
 	if (isset($pdo) && $pdo->inTransaction()) {
 		$pdo->rollBack();
 	}
-	// ログ：error_log($e->getMessage());
+	error_log('[favorite] ' . $e->getMessage());
 	http_response_code(500);
 	echo json_encode(['error' => 'Internal Server Error.'], JSON_UNESCAPED_UNICODE);
 	exit;

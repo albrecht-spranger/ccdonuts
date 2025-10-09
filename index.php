@@ -4,6 +4,28 @@ declare(strict_types=1);
 require_once __DIR__ . '/app/sessionManager.php';
 require_once __DIR__ . '/app/commonFunctions.php';
 require_once __DIR__ . '/app/auth.php';
+require_once __DIR__ . '/app/dbConnect.php';       // getDbConnection()
+
+// ---- 人気ランキング（TOP6）をDBから取得 ----
+$ranking = [];
+try {
+	$pdo = getDbConnection();
+	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+	// purchase_details から productIdごとの購入数を集計し、多い順に6件
+	$stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.image, SUM(d.purchaseCount) AS total_count
+		FROM purchase_details d
+		JOIN products p ON p.id = d.productId
+		GROUP BY p.id, p.name, p.price, p.image
+		ORDER BY total_count DESC, p.id ASC
+		LIMIT 6');
+		$stmt->execute([$customerId]);
+	$stmt = $pdo->query($sql);
+	$ranking = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Throwable $e) {
+	error_log('[index ranking] ' . $e->getMessage());
+	// 失敗時は空配列のまま（下で「まだランキングがありません」を表示）
+}
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +110,7 @@ require "head.php";
 							<input type="hidden" name="csrfToken" value="<?= htmlspecialchars($_SESSION['csrfToken'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 							<input type="hidden" name="productId" value="<?= $pid ?>">
 							<input type="hidden" name="quantity" value="1">
-							<button type="submit" name="action" value="add" class="btnAddToCart">カートに入れる</button>
+							<button type="submit" name="action" value="add" class="curtButton">カートに入れる</button>
 						</form>
 					</article>
 				<?php endforeach; ?>
