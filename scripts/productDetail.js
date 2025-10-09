@@ -1,12 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const btn = document.getElementById('favoriteBtn');
 	const productId = Number(btn.dataset.productId || '0');
-	const isLoggedIn = btn.dataset.loggedIn === '1';
 	btn.addEventListener('click', async () => {
-		if (!isLoggedIn) {
-			alert('お気に入りを登録するにはログインしてください。');
-			return;
-		}
 		if (!productId) {
 			alert('内部エラー：商品が指定されていません。');
 			return;
@@ -14,15 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		btn.disabled = true;
 		try {
-			const url = `app/favorite.php?productId=${encodeURIComponent(productId)}`;
-			const res = await fetch(url, {
+			const res = await fetch('app/favorite.php', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ productId })
 			});
 
 			if (res.status === 401) {
-				alert('お気に入りを登録するにはログインしてください！');
+				alert('お気に入りを登録するにはログインしてください。');
 				return;
 			}
 			if (!res.ok) {

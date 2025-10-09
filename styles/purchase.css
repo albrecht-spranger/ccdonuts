@@ -1,0 +1,221 @@
+/* ===== 購入確認 ===== */
+.purchaseConfirmSection {
+	max-width: 375px;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.purchaseTitle {
+	width: 100%;
+	text-align: center;
+	padding-top: 32px;
+	padding-bottom: 32px;
+	font-size: 1.25rem;
+	color: black;
+	text-decoration-line: underline;
+	text-decoration-thickness: 2px;
+	text-decoration-style: solid;
+	text-decoration-color: #ffd233;
+	text-underline-offset: 12px;
+}
+
+.pch2Section {
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.pch2Section.moreGap40 {
+	margin-top: 40px;
+}
+
+.pch2Title {
+	text-align: center;
+	color: #7f5539;
+	font-size: 0.75rem;
+}
+
+.pcItem {
+	display: grid;
+	grid-template-columns: 1fr 275px;
+	row-gap: 4px;
+	column-gap: 0;
+	padding: 4px 0 4px 4px;
+	border-top: 1px solid #f7d1cd;
+	border-bottom: 1px solid #f7d1cd;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.pcItemLeft {
+	color: #7F5539;
+	font-size: 0.75rem;
+	line-height: 20px;
+	font-weight: 400;
+	overflow-wrap: anywhere;
+}
+
+.pcItemLeft.bold {
+	font-weight: 600;
+}
+
+.pcItemRight {
+	color: black;
+	font-size: 0.75rem;
+	box-sizing: border-box;
+	border-left: 2px solid #f7d1cd;
+	line-height: 20px;
+	padding-left: 12px;
+	font-weight: 400;
+	overflow-wrap: anywhere;
+}
+
+.pcItemRight.bold {
+	font-weight: 600;
+}
+
+.loginContents {
+	max-width: 375px;
+	padding: 40px 40px 80px 40px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* submitボタン */
+.pcSubmitBtn {
+	cursor: pointer;
+	display: block;
+	text-align: center;
+	width: 160px;
+	height: 48px;
+	line-height: 48px;
+	background-color: #7f5539;
+	color: white;
+	font-size: 1rem;
+	margin: 40px auto 80px;
+}
+
+.pcSubmitBtn:disabled {
+	opacity: 0.5;
+	cursor: auto;
+}
+
+
+/* ログイン画面のピンクの枠 */
+.loginBox {
+	border: 2px solid #f7d1cd;
+	padding: 20px 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+/* 登録画面の枠線のない枠 */
+.registerBox {
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+/* フォーム1つのスタイル */
+.formRow {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.formRow label,
+.formRow legend {
+	font-size: 0.75rem;
+	color: #7f5539;
+}
+
+/* 必須ラベル用 */
+.formRow label.require::after {
+	content: "（必須）";
+	color: red;
+}
+
+.formRow input[type="text"],
+.formRow input[type="email"],
+.formRow input[type="password"] {
+	border: 1px solid #7f5539;
+	padding: 4px;
+	font-size: 0.75rem;
+}
+
+.postcodePair {
+	display: flex;
+	gap: 4px;
+}
+
+#postcodeHead {
+	width: 60px;
+}
+
+#postcodeTail {
+	width: 100px;
+}
+
+.loginBox p {
+	text-align: center;
+}
+
+.formRow .note {
+	font-size: .5rem;
+	color: red;
+}
+
+/* submitボタン */
+.primaryBtn {
+	padding: 16px 32px;
+	cursor: pointer;
+	display: block;
+	text-align: center;
+	width: 160px;
+	height: 48px;
+	background-color: #7f5539;
+	color: white;
+	font-size: 1rem;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* 確認画面 */
+/* ラベル */
+.confirmLabel {
+	color: #7f5539;
+	font-size: 0.75rem;
+	line-height: 1.0;
+}
+
+/* 値 */
+.confirmValue {
+	color: black;
+	font-size: 0.75rem;
+	line-height: 20px;
+	border-left: 1px solid #7f5539;
+	display: block;
+	height: 20px;
+	padding-left: 4px;
+}
+
+/* 他ページへのリンク */
+.loginToAnotherLink {
+	margin-top: 20px;
+	text-align: right;
+	display: block;
+}
+
+/* 2つ並ぶときはその間隔を8pxにする */
+.loginToAnotherLink+.loginToAnotherLink {
+	margin-top: 8px;
+}
+
+.errorMessage {
+	color: red;
+	margin-bottom: 20px;
+}

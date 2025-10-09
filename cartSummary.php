@@ -5,7 +5,7 @@
 				class="totalPurchase">￥<?= htmlspecialchars(number_format((int) $total), ENT_QUOTES, 'UTF-8') ?></span>
 		</p>
 	</div>
-	<form action="purchaseConfirmation.php" method="post">
+	<form action="purchaseConfirm.php" method="post">
 		<input type="hidden" name="csrfToken"
 			value="<?= htmlspecialchars($_SESSION['csrfToken'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 		<input type="hidden" name="action" value="purchaseConfirmation">

@@ -122,10 +122,19 @@
 	padding-top: 8px;
 	padding-bottom: 8px;
 	font-size: 1.25rem;
-	font-weight: 300;
-	background-color: #cccccc;
+	font-weight: 600;
+	color: white;
+	background-color: black;
 	line-height: 1.0;
 	text-align: center;
+}
+
+/* 無効状態の見た目 */
+.itemUpdateBtn:disabled {
+  opacity: 0.5;
+  cursor: auto;
+  background-color: #ccc;
+  color: #666;
 }
 
 .deleteItemContainer {

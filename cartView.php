@@ -33,25 +33,25 @@ require "head.php";
 			['label' => 'カート', 'url' => null],
 		];
 		require "breadcrumbs.php"
-			?>
+		?>
 
 		<!-- ログインユーザ名 -->
 		<div class="loginUserContainer">
 			<p><?= isLoggedIn() ? getLoginUserName() : 'ようこそ　ゲスト' ?> 様</p>
 		</div>
 
-		<!-- エラー表示 -->
-		<?php
-		$error = getFlash('error');
-		$success = getFlash('success');
-		if ($error)
-			echo '<div class="errorMessage">' . htmlspecialchars($error, ENT_QUOTES, 'UTF-8') . '</div>';
-		if ($success)
-			echo '<div class="successMessage">' . htmlspecialchars($success, ENT_QUOTES, 'UTF-8') . '</div>';
-		?>
-
 		<!-- カートの中身表示 -->
 		<div class="cartSection">
+			<!-- エメッセージ表示 -->
+			<?php
+			$error = getFlash('error');
+			$success = getFlash('success');
+			if ($error)
+				echo '<div class="errorMessage">' . htmlspecialchars($error, ENT_QUOTES, 'UTF-8') . '</div>';
+			if ($success)
+				echo '<div class="successMessage">' . htmlspecialchars($success, ENT_QUOTES, 'UTF-8') . '</div>';
+			?>
+
 			<?php if (!$items): ?>
 				<div class="cartSummary">
 					<div class="cartSummaryText">
@@ -92,7 +92,7 @@ require "head.php";
 										個
 									</p>
 								</div>
-								<button type="submit" class="itemUpdateBtn">再計算</button>
+								<button type="submit" class="itemUpdateBtn" disabled>再計算</button>
 							</form>
 							<form action="cart.php" class="deleteItemContainer" method="POST">
 								<input type="hidden" name="action" value="remove">
@@ -112,4 +112,7 @@ require "head.php";
 	</main>
 
 	<?php require "footer.php"; ?>
+
+	<!-- 再計算の操作 -->
+	<script src="scripts/cart.js"></script>
 </body>

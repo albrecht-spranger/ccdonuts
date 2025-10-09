@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="styles/products.css">
 	<link rel="stylesheet" href="styles/cart.css">
 	<link rel="stylesheet" href="styles/login.css">
+	<link rel="stylesheet" href="styles/purchase.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link
