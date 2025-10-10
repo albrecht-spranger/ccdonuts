@@ -21,6 +21,9 @@
 
 /* Features */
 .featureBlocks {
+	max-width: 1040px;
+	margin-left: auto;
+	margin-right: auto;
 	display: flex;
 	flex-direction: column;
 	gap: 80px;
@@ -88,8 +91,8 @@
 }
 
 .link2Products img {
-	width: 1040px;
-	height: 257px;
+	width: 100%;
+	max-height: 257px;
 	object-fit: cover;
 }
 
@@ -171,11 +174,8 @@
 
 /* Ranking */
 .rankingSection {
-	margin-left: auto;
-	margin-right: auto;
 	padding-top: 80px;
 	padding-bottom: 120px;
-	width: fit-content;
 }
 
 .rankBadge {
@@ -249,7 +249,7 @@
 	}
 
 	.link2Products img {
-		width: 335px;
+		max-width: 335px;
 		height: 83px;
 	}
 
@@ -306,7 +306,6 @@
 
 	/* Ranking */
 	.rankingSection {
-		width: 100%;
 		margin: 0;
 		padding-top: 20px;
 		padding-bottom: 82px;

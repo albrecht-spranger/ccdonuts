@@ -1,13 +1,13 @@
 /* ===== 商品一覧 ===== */
 .productsSection {
-	width: fit-content;
-	margin-left: auto;
-	margin-right: auto;
+	max-width: 100%;
 }
 
 .productsSubSection {
 	max-width: 1200px;
 	padding: 80px 60px 120px;
+		margin-left: auto;
+	margin-right: auto;
 }
 
 .productsSubTitle {
@@ -18,9 +18,10 @@
 
 .cardGrid {
 	display: grid;
-	gap: 60px;
+	grid-template-columns: repeat(auto-fill, 320px);
+	gap: 120px 60px;
+	justify-content: center;
 	padding-top: 120px;
-	grid-template-columns: repeat(3, 320px);
 }
 
 .cardItem {
@@ -171,7 +172,23 @@
 }
 
 
-/* Responsive */
+/* ------------------------------
+  検索結果
+---------------------------------*/
+.oops {
+	margin-top: 20px;
+	text-align: center;
+	font-size: 1.0rem;
+}
+
+.searchText {
+	font-size: 1.25rem;
+	text-align: center;
+}
+
+/* ------------------------------
+	スマホ向け
+---------------------------------*/
 @media (max-width: 768px) {
 
 	/* ===== 商品一覧 ===== */
@@ -189,9 +206,9 @@
 	}
 
 	.cardGrid {
-		gap: 20px;
-		padding: 80px 20px 0;
-		grid-template-columns: repeat(2, 157.5px);
+		padding: 80px 0 0;
+		grid-template-columns: repeat(auto-fill, 157.5px);
+		gap: 80px 20px;
 	}
 
 	.cardItem img {
@@ -201,6 +218,10 @@
 
 	.cardTitle {
 		font-size: 1rem;
+	}
+
+	.cardPrice {
+		font-size: 1.0rem;
 	}
 
 	.cartButton {
@@ -274,5 +295,18 @@
 	#favoriteBtn {
 		width: 36px;
 		margin-left: 4px;
+	}
+
+
+	/* ------------------------------
+		検索結果
+	---------------------------------*/
+	.searchText {
+		font-size: 1.0rem;
+	}
+
+	.oops {
+		margin-top: 12px;
+		font-size: 0.75rem;
 	}
 }

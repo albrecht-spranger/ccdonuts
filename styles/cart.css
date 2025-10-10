@@ -75,6 +75,7 @@
 	font-size: 1.5rem;
 	font-weight: 600;
 	line-height: 1.0;
+	color: #7F5539;
 }
 
 .priceNQty {
@@ -101,7 +102,9 @@
 
 .qtyInput {
 	font-size: 1.5rem;
-	padding-right: 16px;
+	/* padding-right: 16px; */
+	padding: 0;
+	text-align: center;
 	width: 80px;
 	height: 52px;
 	color: black;
@@ -208,7 +211,6 @@
 	.cartItem {
 		flex-direction: column;
 		gap: 20px;
-		align-items: center;
 	}
 
 	.cartItemDetail {
@@ -219,12 +221,11 @@
 	}
 
 	.cartItemTitle {
-		display: block;
-		width: 100%;
 		height: auto;
 		padding-top: 4px;
 		font-size: 1.0rem;
 		border: none;
+		text-align: center;
 	}
 
 	.priceNQty {
@@ -235,42 +236,30 @@
 	}
 
 	.itemPrice {
-		font-size: 1.5rem;
+		font-size: 1.0rem;
 		color: #bf0000;
 		text-align: center;
 	}
 
 	.qtyText {
-		font-size: 1.5rem;
-		color: black;
-		line-height: 1.0;
+		font-size: 1.0rem;
 		text-align: center;
-		display: inline-block;
-		vertical-align: baseline;
 	}
 
 	.qtyInput {
-		font-size: 1.5rem;
-		padding-right: 16px;
-		width: 80px;
-		height: 52px;
-		color: black;
-		margin-left: 12px;
-		margin-right: 8px;
-		line-height: 1.0;
-		border: 1px solid #7F5539;
-		display: inline-block;
-		vertical-align: baseline;
+		font-size: 1.0rem;
+		width: 56px;
+		height: 24px;
+		margin-right: 4px;
+		text-align: center;
+		padding: 0;
 	}
 
 	.itemUpdateBtn {
 		margin-top: 20px;
+		font-size: 0.75rem;
 		margin-left: auto;
 		margin-right: auto;
-		width: 140px;
-		padding-top: 8px;
-		padding-bottom: 8px;
-		font-size: 0.75rem;
 		font-weight: 400;
 	}
 
@@ -279,31 +268,20 @@
 	}
 
 	.deleteItemBtn {
-		display: block;
+		margin-top: 20px;
 		margin-left: auto;
-		font-size: 1.25rem;
+		margin-right: auto;
+		font-size: 0.75rem;
 		font-weight: 300;
-		line-height: 1.0;
-		text-decoration-line: underline;
-		text-decoration-thickness: 0.5px;
-		text-decoration-style: solid;
-		text-decoration-color: black;
-		/* 文字からの距離 */
 		text-underline-offset: 2px;
 	}
 
 	/* 買い物を続けるボタン */
 	.continueShoppingBtn {
-		width: 260px;
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
-		text-align: center;
-		font-size: 1.25rem;
-		color: white;
-		padding-top: 16px;
-		padding-bottom: 16px;
-		background-color: #7f5539;
+		width: 160px;
+		font-size: 0.75rem;
+		padding-top: 12px;
+		padding-bottom: 12px;
 	}
 
 	/* 購入確認へ進むボタン */

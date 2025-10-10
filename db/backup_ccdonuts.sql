@@ -111,7 +111,7 @@ CREATE TABLE `favorites` (
 
 LOCK TABLES `favorites` WRITE;
 /*!40000 ALTER TABLE `favorites` DISABLE KEYS */;
-INSERT INTO `favorites` VALUES (1003,1,'2025-10-09 14:18:27'),(1003,8,'2025-10-09 09:36:16');
+INSERT INTO `favorites` VALUES (1002,2,'2025-10-10 21:00:10'),(1002,4,'2025-10-10 21:01:59'),(1003,1,'2025-10-09 14:18:27'),(1003,8,'2025-10-09 09:36:16');
 /*!40000 ALTER TABLE `favorites` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,7 +200,7 @@ CREATE TABLE `purchase_details` (
 
 LOCK TABLES `purchase_details` WRITE;
 /*!40000 ALTER TABLE `purchase_details` DISABLE KEYS */;
-INSERT INTO `purchase_details` VALUES (1,2,5),(1,6,4),(2,12,6);
+INSERT INTO `purchase_details` VALUES (1,2,5),(1,6,4),(2,12,6),(3,2,1),(4,5,21),(5,4,45),(6,10,3);
 /*!40000 ALTER TABLE `purchase_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,7 +220,7 @@ CREATE TABLE `purchases` (
   PRIMARY KEY (`id`),
   KEY `idx_purchases_customer_date` (`customerId`,`purchaseDate`),
   CONSTRAINT `fk_purchases_customer` FOREIGN KEY (`customerId`) REFERENCES `customers` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,7 +229,7 @@ CREATE TABLE `purchases` (
 
 LOCK TABLES `purchases` WRITE;
 /*!40000 ALTER TABLE `purchases` DISABLE KEYS */;
-INSERT INTO `purchases` VALUES (1,1003,'2025-10-09 14:36:10','pending',15200),(2,1003,'2025-10-09 14:58:17','pending',16800);
+INSERT INTO `purchases` VALUES (1,1003,'2025-10-09 14:36:10','pending',15200),(2,1003,'2025-10-09 14:58:17','pending',16800),(3,1002,'2025-10-10 20:55:58','pending',1600),(4,1002,'2025-10-10 21:00:31','pending',33600),(5,1002,'2025-10-10 21:27:23','pending',67500),(6,1002,'2025-10-10 23:13:54','pending',7200);
 /*!40000 ALTER TABLE `purchases` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,4 +250,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-09 15:29:26
+-- Dump completed on 2025-10-11  1:38:41

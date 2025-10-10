@@ -225,72 +225,72 @@ body {
 /* ------------------------------
   ドロワーメニュー(横型)
 ---------------------------------*/
-:root {
-	--content-left: 0px;
-	/* JSで算出（画面中央の1366pxレイアウトの左端） */
-	--nav-width: 583px;
-	/* パネル幅（必要なら調整 or JSで上書き） */
-	--nav-x: calc(-1 * (var(--nav-width) + var(--content-left)));
-	--ease: 320ms cubic-bezier(.2, .7, .2, 1);
-}
+/* :root { */
+/* --content-left: 0px; */
+/* JSで算出（画面中央の1366pxレイアウトの左端） */
+/* --nav-width: 583px; */
+/* パネル幅（必要なら調整 or JSで上書き） */
+/* --nav-x: calc(-1 * (var(--nav-width) + var(--content-left))); */
+/* --ease: 320ms cubic-bezier(.2, .7, .2, 1); */
+/* } */
 
-.globalNavH {
-	height: 748px;
-	padding-top: 20px;
-	padding-left: 103px;
-	background-color: rgba(127, 85, 57, 0.75);
-	z-index: 1000;
-	position: fixed;
-	top: 0;
-	left: var(--content-left);
-	/* ←ここがポイント：画面左端ではなくコンテンツ左端 */
-	width: var(--nav-width);
-	transition: transform 0.5s ease;
-	transform: translateX(var(--nav-x));
-}
+/* .globalNavH { */
+/* height: 748px; */
+/* padding-top: 20px; */
+/* padding-left: 103px; */
+/* background-color: rgba(127, 85, 57, 0.75); */
+/* z-index: 1000; */
+/* position: fixed; */
+/* top: 0; */
+/* left: var(--content-left); */
+/* ←ここがポイント：画面左端ではなくコンテンツ左端 */
+/* width: var(--nav-width); */
+/* transition: transform 0.5s ease; */
+/* transform: translateX(var(--nav-x)); */
+/* } */
 
-.globalNavH.dragging {
-	transition: none;
-}
+/* .globalNavH.dragging { */
+/* transition: none; */
+/* } */
 
-.globalNavH.open {
-	transform: translateX(0);
-}
+/* .globalNavH.open { */
+/* transform: translateX(0); */
+/* } */
 
-.globalNavHIcon {
-	display: block;
-	margin-bottom: 100px;
-	width: 87px;
-	height: auto;
-}
+/* .globalNavHIcon { */
+/* display: block; */
+/* margin-bottom: 100px; */
+/* width: 87px; */
+/* height: auto; */
+/* } */
 
-.globalNavH ul {
-	display: block;
-	width: 400px;
-}
+/* .globalNavH ul { */
+/* display: block; */
+/* width: 400px; */
+/* } */
 
-.globalNavH li {
-	display: block;
-	width: 100%;
-	height: 64px;
-	border-bottom: 1px solid white;
-}
+/* .globalNavH li { */
+/* display: block; */
+/* width: 100%; */
+/* height: 64px; */
+/* border-bottom: 1px solid white; */
+/* } */
 
-.globalNavH li a {
-	color: white;
-	font-size: 1.5rem;
-	line-height: 64px;
-}
+/* .globalNavH li a { */
+/* color: white; */
+/* font-size: 1.5rem; */
+/* line-height: 64px; */
+/* } */
 
 /* close X at top-right */
-#globalNavHClose img {
-	position: absolute;
-	top: 12px;
-	right: 12px;
-	width: 54px;
-	height: 54px;
-	cursor: pointer;
-}
+/* #globalNavHClose img { */
+/* position: absolute; */
+/* top: 12px; */
+/* right: 12px; */
+/* width: 54px; */
+/* height: 54px; */
+/* cursor: pointer; */
+/* } */
 
 /* ------------------------------
   パンくずリスト
@@ -427,6 +427,54 @@ body {
 		margin-top: 0;
 	}
 
+	/* ------------------------------
+		ドロワーメニュー(縦型)
+	---------------------------------*/
+	.globalNavV {
+		width: 100%;
+		height: 488px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.globalNavVIcon {
+		position: absolute;
+		top: 12px;
+		left: 12px;
+		width: 59px;
+	}
+
+	.globalNavV ul {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 240px;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	.globalNavV li {
+		flex: 1;
+		width: 100%;
+		text-align: left;
+		padding-left: 12px;
+		border-bottom: 1px solid white;
+	}
+
+	.globalNavV li a {
+		color: white;
+		font-size: 1rem;
+	}
+
+	/* close X at top-right */
+	#globalNavVClose img {
+		top: 12px;
+		right: 12px;
+		width: 26px;
+		height: 26px;
+	}
+
 	/* 検索領域 */
 	.searchArea {
 		padding: 8px 12px;
@@ -440,7 +488,11 @@ body {
 	}
 
 	.searchInput {
-		height: 36px;
+		height: 37px;
+		border-top: 1px solid #7f5539;
+		border-left: none;
+		border-bottom: 1px solid #7f5539;
+		border-right: 1px solid #7f5539;
 	}
 
 	/* ------------------------------

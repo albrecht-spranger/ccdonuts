@@ -18,22 +18,19 @@
 	</nav>
 
 	<!-- ドロワーメニュー(横型) -->
-	<nav id="globalNavH" class="globalNavH">
-		<!-- 中央アイコン -->
-		<img src="images/pcHeaderLogo.svg" alt="C.C. Donuts" class="globalNavHIcon">
-		<!-- メニュークローズボタン -->
-		<button id="globalNavHClose">
-			<img src="images/closeBtn.svg">
-		</button>
-		<!-- メニューリスト -->
-		<ul>
-			<li><a href="index.php">TOP</a></li>
-			<li><a href="products.php">商品一覧</a></li>
-			<li><a href="#">よくある質問</a></li>
-			<li><a href="#">お問い合わせ</a></li>
-			<li><a href="#">当サイトのポリシー</a></li>
-		</ul>
-	</nav>
+	<!-- <nav id="globalNavH" class="globalNavH"> -->
+		<!-- <img src="images/pcHeaderLogo.svg" alt="C.C. Donuts" class="globalNavHIcon"> -->
+		<!-- <button id="globalNavHClose"> -->
+			<!-- <img src="images/closeBtn.svg"> -->
+		<!-- </button> -->
+		<!-- <ul> -->
+			<!-- <li><a href="index.php">TOP</a></li> -->
+			<!-- <li><a href="products.php">商品一覧</a></li> -->
+			<!-- <li><a href="#">よくある質問</a></li> -->
+			<!-- <li><a href="#">お問い合わせ</a></li> -->
+			<!-- <li><a href="#">当サイトのポリシー</a></li> -->
+		<!-- </ul> -->
+	<!-- </nav> -->
 
 	<div class="headerBar">
 		<!-- hamburger -->
@@ -80,6 +77,7 @@
 		</div>
 	</div>
 
+	<!-- 検索ボックス -->
 	<div class="searchArea">
 		<form class="searchForm" action="search.php" method="get" role="search">
 			<button class="searchButton" type="submit">
