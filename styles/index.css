@@ -179,14 +179,18 @@
 }
 
 .rankBadge {
-	display: block;
+	align-self: center;
+	/* display: inline-flex; */
+	display: flex;
+	/* 中の数字を縦横中央に配置 */
+	justify-content: center;
+	align-items: center;
 	width: 60px;
 	height: 60px;
 	color: #fff;
 	font-weight: 500;
 	font-size: 1.5rem;
 	line-height: 60px;
-	text-align: center;
 	background: #E8C2CA;
 }
 
@@ -312,6 +316,5 @@
 		width: 35px;
 		height: 35px;
 		font-size: 1.0rem;
-		line-height: 35px;
 	}
 }
