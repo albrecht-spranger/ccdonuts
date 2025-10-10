@@ -40,11 +40,13 @@
 .cardTitle {
 	font-size: 1.5rem;
 	color: #7f5539;
-	text-align: justify;
+	text-align: left;
+	line-height: 1.6;
+	font-weight: 500;
 }
 
 .cardPrice {
-	font-size: 1.25rem;
+	font-size: 1.5rem;
 	color: #bf0000;
 }
 

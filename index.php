@@ -12,15 +12,14 @@ try {
 	$pdo = getDbConnection();
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-	// purchase_details から productIdごとの購入数を集計し、多い順に6件
-	$stmt = $pdo->prepare('SELECT p.id, p.name, p.price, p.image, SUM(d.purchaseCount) AS total_count
-		FROM purchase_details d
-		JOIN products p ON p.id = d.productId
-		GROUP BY p.id, p.name, p.price, p.image
-		ORDER BY total_count DESC, p.id ASC
-		LIMIT 6');
-		$stmt->execute([$customerId]);
-	$stmt = $pdo->query($sql);
+	$sql = 'SELECT p.id, p.name, p.price, p.image, SUM(d.purchaseCount) AS total_count
+        FROM purchase_details d
+        JOIN products p ON p.id = d.productId
+        GROUP BY p.id, p.name, p.price, p.image
+        ORDER BY total_count DESC, p.id ASC
+        LIMIT 6';
+
+	$stmt = $pdo->query($sql);                  // これだけで実行
 	$ranking = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Throwable $e) {
 	error_log('[index ranking] ' . $e->getMessage());
@@ -88,32 +87,42 @@ require "head.php";
 			<h1 class="sectionTitle">人気ランキング</h1>
 
 			<div class="cardGrid">
-				<?php
-				// 実装時はDBから取得してループに差し替え
-				$items = [
-					["rank" => 1, "title" => "CCドーナツ 当店オリジナル（5個入り）", "price" => "1,500", "image" => "original.jpg"],
-					["rank" => 2, "title" => "フルーツドーナツセット（12個入り）", "price" => "3,500", "image" => "fruitDonutAssortment.jpg"],
-					["rank" => 3, "title" => "フルーツドーナツセット（14個入り）", "price" => "4,000", "image" => "fruitDonutSet.jpg"],
-					["rank" => 4, "title" => "チョコレートデライト（5個入り）", "price" => "1,600", "image" => "chocolateDelight.jpg"],
-					["rank" => 5, "title" => "ベストセレクションボックス（4個入り）", "price" => "1,200", "image" => "bestSelectionBox.jpg"],
-					["rank" => 6, "title" => "ストロベリークラッシュ（5個入り）", "price" => "1,800", "image" => "strawberryCrush.jpg"],
-				];
-				foreach ($items as $it):
-				?>
-					<article class="cardItem">
-						<span class="rankBadge"><?php echo $it["rank"]; ?></span>
-						<img src="images/<?php echo $it['image']; ?>"
-							alt="<?php echo htmlspecialchars($it['title'], ENT_QUOTES, 'UTF-8'); ?>">
-						<h4 class="cardTitle"><?php echo $it["title"]; ?></h4>
-						<p class="cardPrice">税込 ￥<?php echo $it["price"]; ?></p>
-						<form action="cart.php" method="post" class="cartButton">
-							<input type="hidden" name="csrfToken" value="<?= htmlspecialchars($_SESSION['csrfToken'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-							<input type="hidden" name="productId" value="<?= $pid ?>">
-							<input type="hidden" name="quantity" value="1">
-							<button type="submit" name="action" value="add" class="curtButton">カートに入れる</button>
-						</form>
-					</article>
-				<?php endforeach; ?>
+				<?php if (empty($ranking)): ?>
+					<p>まだランキングがありません。</p>
+				<?php else: ?>
+					<?php $rank = 1;
+					foreach ($ranking as $row): ?>
+						<?php
+						$pid   = (int)$row['id'];
+						$title = htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8');
+						$price = (int)$row['price'];
+						$img   = htmlspecialchars($row['image'] ?? '', ENT_QUOTES, 'UTF-8');
+						?>
+						<article class="cardItem">
+							<span class="rankBadge"><?= $rank ?></span>
+							<a href="productDetail.php?id=<?= $pid ?>">
+								<img src="images/<?= $img ?>" alt="<?= $title ?>">
+							</a>
+							<h4 class="cardTitle">
+								<a href="productDetail.php?id=<?= $pid ?>"><?= $title ?></a>
+							</h4>
+							<p class="cardPrice">税込 ￥<?= number_format($price) ?></p>
+
+							<form action="cart.php" method="post" class="cartButton">
+								<?php if (function_exists('csrf_field')): ?>
+									<?= csrf_field(); ?>
+								<?php else: ?>
+									<input type="hidden" name="csrfToken"
+										value="<?= htmlspecialchars($_SESSION['csrfToken'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+								<?php endif; ?>
+								<input type="hidden" name="productId" value="<?= $pid ?>">
+								<input type="hidden" name="quantity" value="1">
+								<button type="submit" name="action" value="add" class="cartButton">カートに入れる</button>
+							</form>
+						</article>
+						<?php $rank++; ?>
+					<?php endforeach; ?>
+				<?php endif; ?>
 			</div>
 		</section>
 	</main>
