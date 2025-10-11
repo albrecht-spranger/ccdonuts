@@ -15,7 +15,7 @@ $mail = trim((string)($_POST['mail'] ?? ''));
 $pass = (string)($_POST['password'] ?? '');
 if ($mail === '' || $pass === '') {
 	setFlash('error', 'メールアドレスとパスワードを入力してください。');
-	redirect('../login.php');
+	redirect('login.php');
 	exit;
 }
 
@@ -26,6 +26,6 @@ if ($customer) {
 	exit;
 } else {
 	setFlash('error', 'メールアドレスまたはパスワードが違います。');
-	redirect('../login.php');
+	redirect('login.php');
 	exit;
 }

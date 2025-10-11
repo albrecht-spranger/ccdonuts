@@ -52,7 +52,6 @@ require "head.php";
 					<p class="contentInLoginBox">ログインが完了しました。</p>
 					<p class="contentInLoginBox">引き続きお楽しみください。</p>
 				</div>
-				<a class="loginToAnotherLink" href="checkout.php">購入確認ページへすすむ</a>
 				<a class="loginToAnotherLink" href="index.php">TOPページへもどる</a>
 			</div>
 		</section>
