@@ -28,19 +28,30 @@ $quantity   = (int)($_POST['quantity'] ?? 1);
 if ($quantity < 0) $quantity = 0;
 if ($quantity > 99) $quantity = 99;
 
-// DBから商品を必ず取得（価格等は“絶対に”クライアントから信用しない）
-$pdo = getDbConnection();
-
-if ($action !== 'clear') {
-	$stmt = $pdo->prepare("SELECT id, name, price, image
-        FROM products
-        WHERE id = ? LIMIT 1
-    ");
-	$stmt->execute([$productId]);
-	$product = $stmt->fetch(PDO::FETCH_ASSOC);
-
-	if (!$product) {
-		setFlash('error', '指定の商品が見つかりません。');
+$product = null;
+if ($action === 'add' || $action === 'update') {
+	if ($productId <= 0) {
+		setFlash('error', '商品指定が不正です。');
+		redirect('cartView.php', 303);
+		exit;
+	}
+	// DBから商品を必ず取得（価格等は“絶対に”クライアントから信用しない）
+	try {
+		$pdo = getDbConnection();
+		$stmt = $pdo->prepare("SELECT id, name, price, image
+			FROM products
+			WHERE id = ? LIMIT 1
+		");
+		$stmt->execute([$productId]);
+		$product = $stmt->fetch(PDO::FETCH_ASSOC);
+		if (!$product) {
+			setFlash('error', '指定の商品が見つかりません。');
+			redirect('cartView.php', 303);
+			exit;
+		}
+	} catch (Throwable $e) {
+		error_log("[Cart DB Error action={$action} productId={$productId}] " . $e->getMessage());
+		setFlash('error', 'DBエラーが発生しました。');
 		redirect('cartView.php', 303);
 		exit;
 	}

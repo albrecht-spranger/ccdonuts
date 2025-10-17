@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/app/sessionManager.php';
@@ -6,14 +7,13 @@ require_once __DIR__ . '/app/commonFunctions.php';
 require_once __DIR__ . '/app/auth.php';
 // require_once __DIR__ . '/app/csrf.php';                 // check_csrf()
 // require_once __DIR__ . '/app/registerValidation.php';   // collectRegisterInput(), validateRegister()
-require_once __DIR__ . '/app/dbConnect.php';                   // getDbConnection()
 
 /**
  * 受け口は POST のみ
  */
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-	http_response_code(400);
-	exit('Bad Request!?!?!?!');
+    http_response_code(400);
+    exit('Bad Request!?!?!?!');
 }
 
 /**
@@ -37,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $data = $_SESSION['register.data'] ?? null;
 if (!$data) {
     // 想定外（期限切れ等）
-	http_response_code(400);
-	exit('Bad Request!?!?!?!?!');
+    http_response_code(400);
+    exit('Bad Request!?!?!?!?!');
 }
 
 /**
@@ -56,10 +56,10 @@ if ($errors) {
 /**
  * DB登録（メール重複チェック → INSERT）
  */
-$pdo = getDbConnection();
-$pdo->beginTransaction();
-
 try {
+    $pdo = getDbConnection();
+    $pdo->beginTransaction();
+
     // メール重複チェック
     $stmt = $pdo->prepare('SELECT id FROM customers WHERE mail = ? LIMIT 1');
     $stmt->execute([$data['mail']]);
@@ -100,7 +100,6 @@ try {
     // 完了画面へ（PRG）
     header('Location: registerCompleteView.php', true, 303);
     exit;
-
 } catch (Throwable $e) {
     if ($pdo->inTransaction()) {
         $pdo->rollBack();

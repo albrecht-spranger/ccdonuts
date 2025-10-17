@@ -6,16 +6,17 @@ require_once __DIR__ . '/app/commonFunctions.php';
 require_once __DIR__ . '/app/auth.php';
 
 // DB 取得
-$pdo = getDbConnection();
-// 必要に応じて WHERE 句を調整（例: published=1 / valid=1 など）
-$stmt = $pdo->query("
-    SELECT id, name, price, image, isNew, isSet
-    FROM products
-    WHERE 1
-    ORDER BY id ASC
-");
-$allPproducts = $stmt->fetchAll();
-
+try {
+	$pdo = getDbConnection();
+	$stmt = $pdo->query("SELECT id, name, price, image, isNew, isSet
+		FROM products WHERE 1 ORDER BY id ASC
+	");
+	$allPproducts = $stmt->fetchAll();
+} catch (Throwable $e) {
+	error_log("[DB Error] " . $e->getMessage());
+	echo 'エラーが発生しました。';
+	exit;
+}
 // isSetで振り分け
 $productsMain = []; // isSet=0
 $productsSet  = []; // isSet=1

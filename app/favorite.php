@@ -1,7 +1,6 @@
 <?php
 // app/favorite.php
 declare(strict_types=1);
-require_once __DIR__ . '/dbConnect.php';
 require_once __DIR__ . '/sessionManager.php';
 require_once __DIR__ . '/commonFunctions.php';
 require_once __DIR__ . '/auth.php';

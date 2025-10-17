@@ -12,7 +12,6 @@ declare(strict_types=1);
 require_once __DIR__ . '/app/sessionManager.php';
 require_once __DIR__ . '/app/commonFunctions.php'; // redirect(), setFlash(), csrf_* など
 require_once __DIR__ . '/app/auth.php';            // isLoggedIn()
-require_once __DIR__ . '/app/dbConnect.php';       // getDbConnection()
 
 // 予期せぬPOSTなどGETにして自分自身にリダイレクト
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
@@ -35,10 +34,16 @@ $customer = null;
 if ($loggedIn) {
 	$customerId = $_SESSION['customer']['id'] ?? null;
 	if ($customerId) {
-		$pdo  = getDbConnection();
-		$stmt = $pdo->prepare('SELECT id, name, furigana, postcode_a, postcode_b, address, mail FROM customers WHERE id = ?');
-		$stmt->execute([$customerId]);
-		$customer = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+		try {
+			$pdo  = getDbConnection();
+			$stmt = $pdo->prepare('SELECT id, name, furigana, postcode_a, postcode_b, address, mail FROM customers WHERE id = ?');
+			$stmt->execute([$customerId]);
+			$customer = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+		} catch (Throwable $e) {
+			error_log("[purchaseConfirm.php / DB Error] " . $e->getMessage());
+			echo 'DBエラーが発生しました。';
+			exit;
+		}
 	}
 }
 

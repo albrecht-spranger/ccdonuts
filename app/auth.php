@@ -5,10 +5,15 @@ require_once __DIR__ . '/dbConnect.php';
 
 function attemptLogin(string $mail, string $password): ?array
 {
-    $pdo = getDbConnection();
-    $sql = $pdo->prepare('SELECT id, name, password FROM customers WHERE mail = ?');
-    $sql->execute([$mail]);
-    $user = $sql->fetch(PDO::FETCH_ASSOC);
+    try {
+        $pdo = getDbConnection();
+        $sql = $pdo->prepare('SELECT id, name, password FROM customers WHERE mail = ?');
+        $sql->execute([$mail]);
+        $user = $sql->fetch(PDO::FETCH_ASSOC);
+    } catch (Throwable $e) {
+        error_log("[attemptLogin / DB Error] " . $e->getMessage());
+        return null;
+    }
     // ユーザーが存在し、かつパスワードが正しければ返す
     if ($user && password_verify($password, $user['password'])) {
         return [

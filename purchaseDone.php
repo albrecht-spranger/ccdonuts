@@ -5,7 +5,6 @@ declare(strict_types=1);
 require_once __DIR__ . '/app/sessionManager.php';
 require_once __DIR__ . '/app/commonFunctions.php'; // redirect(), setFlash()
 require_once __DIR__ . '/app/auth.php';            // isLoggedIn()
-require_once __DIR__ . '/app/dbConnect.php';       // getDbConnection()
 
 // 表示専用：想定外メソッドはGETへ
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {

@@ -10,29 +10,38 @@ $raw = (string) ($_GET['q'] ?? '');
 $q = trim(mb_convert_kana($raw, 's')); // 全角スペース→半角、連続空白の正規化
 $terms = array_values(array_filter(preg_split('/[\s　]+/u', $q), fn($t) => $t !== ''));
 
+// すべての語をANDで部分一致（introductionのみ検索）
+$wheres = [];
+$params = [];
+foreach ($terms as $t) {
+	$wheres[] = 'introduction LIKE ?';
+	$params[] = '%' . $t . '%';
+}
+
 // ---------- DB 検索 ----------
 $products = [];
 if (!empty($terms)) {
-	$pdo = getDbConnection();
-	$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+	try {
+		$pdo = getDbConnection();
 
-	// すべての語をANDで部分一致（introductionのみ検索）
-	$wheres = [];
-	$params = [];
-	foreach ($terms as $t) {
-		$wheres[] = 'introduction LIKE ?';
-		$params[] = '%' . $t . '%';
-	}
-
-	// 必要に応じて WHERE に published=1 等を追加してください
-	$sql = "SELECT id, name, price, image, isNew, isSet
+		// 必要に応じて WHERE に published=1 等を追加してください
+		$sql = "SELECT id, name, price, image, isNew, isSet
         FROM products
         WHERE " . implode(' AND ', $wheres) . "
         ORDER BY id ASC
     ";
-	$stmt = $pdo->prepare($sql);
-	$stmt->execute($params);
-	$products = $stmt->fetchAll();
+		$stmt = $pdo->prepare($sql);
+		$stmt->execute($params);
+		$products = $stmt->fetchAll();
+	} catch (PDOException $e) {
+		error_log('[search / PDO] ' . $e->getCode() . ' ' . $e->getMessage());
+		echo 'DBエラーが発生しました。';
+		exit;
+	} catch (Throwable $e) {
+		error_log("[search / DB Error] " . $e->getMessage());
+		echo 'エラーが発生しました。';
+		exit;
+	}
 }
 
 // ---------- 共通：商品カード描画 ----------

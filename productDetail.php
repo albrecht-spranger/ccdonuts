@@ -9,20 +9,16 @@ require_once __DIR__ . '/app/auth.php';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 // ===== DB取得 =====
-$pdo = getDbConnection();
-$stmt = $pdo->prepare("SELECT
-		id,
-		name,
-		price,
-		introduction,
-		image
-	FROM products
-	WHERE id = :id
-	LIMIT 1
-");
-$stmt->execute([':id' => $id]);
-$p = $stmt->fetch(PDO::FETCH_ASSOC);
-
+try {
+	$pdo = getDbConnection();
+	$stmt = $pdo->prepare("SELECT id, name, price, introduction, image FROM products WHERE id = :id LIMIT 1");
+	$stmt->execute([':id' => $id]);
+	$p = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (Throwable $e) {
+	error_log("[DB Error] " . $e->getMessage());
+	echo 'エラーが発生しました。';
+	exit;
+}
 if (!$p) {
 	http_response_code(404);
 	echo '指定の商品が見つかりませんでした。';

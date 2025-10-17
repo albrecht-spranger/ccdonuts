@@ -5,7 +5,6 @@ declare(strict_types=1);
 require_once __DIR__ . '/app/sessionManager.php';
 require_once __DIR__ . '/app/commonFunctions.php'; // setFlash(), redirect(), csrf系
 require_once __DIR__ . '/app/auth.php';            // isLoggedIn()
-require_once __DIR__ . '/app/dbConnect.php';       // getDbConnection()
 
 // 1) メソッド検証
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -15,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // 2) CSRF 検証（共通の check_csrf があれば使用。なければフォールバック）
 // $postedToken = $_POST['csrf_token'] ?? $_POST['csrfToken'] ?? '';
 // if (!check_csrf($postedToken)) {
-	// setFlash('error', '不正なリクエスト（CSRF）です。');
-	// redirect('purchaseConfirm.php', 303);
+// setFlash('error', '不正なリクエスト（CSRF）です。');
+// redirect('purchaseConfirm.php', 303);
 // }
 
 // 3) ログイン検証
@@ -53,30 +52,33 @@ if (empty($lines)) {
 }
 
 // 5) 価格再計算（サーバ側を正：products.price）
-$pdo = getDbConnection();
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-$ids = array_keys($lines);
-$placeholders = implode(',', array_fill(0, count($ids), '?'));
-$stmt = $pdo->prepare("SELECT id, price FROM products WHERE id IN ($placeholders)");
-$stmt->execute($ids);
-
-$priceMap = []; // id => int (yen)
-foreach ($stmt as $row) {
-	$priceMap[(int)$row['id']] = (int)$row['price'];
-}
-
-$totalYen = 0;
-foreach ($lines as $pid => $qty) {
-	if (!isset($priceMap[$pid])) {
-		setFlash('error', "一部の商品情報が取得できません（ID: {$pid}）。");
-		redirect('cartView.php', 303);
-	}
-	$totalYen += $priceMap[$pid] * $qty;
-}
-
-// 6) トランザクション：purchases → purchase_details
 try {
+	$pdo = getDbConnection();
+
+	$ids = array_keys($lines);
+	if (empty($ids)) {
+		throw new LogicException('購入対象の商品が不正です。'); // 業務エラーは例外で集約
+	}
+
+	$placeholders = implode(',', array_fill(0, count($ids), '?'));
+	$stmt = $pdo->prepare("SELECT id, price FROM products WHERE id IN ($placeholders)");
+	$stmt->execute($ids);
+
+	$priceMap = []; // id => int (yen)
+	foreach ($stmt as $row) {
+		$priceMap[(int)$row['id']] = (int)$row['price'];
+	}
+
+	$totalYen = 0;
+	foreach ($lines as $pid => $qty) {
+		if (!isset($priceMap[$pid])) {
+			setFlash('error', "一部の商品情報が取得できません（ID: {$pid}）。");
+			redirect('cartView.php', 303);
+		}
+		$totalYen += $priceMap[$pid] * $qty;
+	}
+
+	// 6) トランザクション：purchases → purchase_details
 	$pdo->beginTransaction();
 
 	// purchases 追加（status は DEFAULT 'pending'、purchaseDate は DEFAULT CURRENT_TIMESTAMP）
@@ -98,8 +100,21 @@ try {
 	// 7) カートクリア → 完了へ（PRG）
 	unset($_SESSION['cart']);
 	redirect('purchaseDone.php', 303);
+} catch (LogicException $e) {
+	if (isset($pdo) && $pdo->inTransaction()) {
+		$pdo->rollBack();
+	}
+	error_log('[purchaseProcess business] ' . $e->getMessage());
+	setFlash('error', '購入処理で業務エラーが発生しました。時間をおいて再度お試しください。');
+	redirect('cartView.php', 303);
+} catch (PDOException $e) {
+	if (isset($pdo) && $pdo->inTransaction()) $pdo->rollBack();
+	// DB固有のエラーコードも残しておくと後で追跡しやすい
+	error_log('[purchaseProcess PDO] ' . $e->getCode() . ' ' . $e->getMessage());
+	setFlash('error', '購入処理でDBエラーが発生しました。時間をおいて再度お試しください。');
+	redirect('cartView.php', 303);
 } catch (Throwable $e) {
-	if ($pdo->inTransaction()) $pdo->rollBack();
+	if (isset($pdo) && $pdo->inTransaction()) $pdo->rollBack();
 	error_log('[purchaseProcess] ' . $e->getMessage());
 	setFlash('error', '購入処理でエラーが発生しました。時間をおいて再度お試しください。');
 	redirect('cartView.php', 303);
