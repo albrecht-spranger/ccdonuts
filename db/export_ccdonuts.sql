@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: 127.0.0.1
--- 生成日時: 2025-10-11 08:16:49
+-- 生成日時: 2025-10-15 02:14:07
 -- サーバのバージョン： 10.4.32-MariaDB
 -- PHP のバージョン: 8.2.12
 
@@ -81,8 +81,6 @@ CREATE TABLE `favorites` (
 --
 
 INSERT INTO `favorites` (`customerId`, `productId`, `createdAt`) VALUES
-(1002, 2, '2025-10-10 21:00:10'),
-(1002, 4, '2025-10-10 21:01:59'),
 (1003, 1, '2025-10-09 14:18:27'),
 (1003, 8, '2025-10-09 09:36:16');
 
@@ -156,11 +154,7 @@ CREATE TABLE `purchases` (
 
 INSERT INTO `purchases` (`id`, `customerId`, `purchaseDate`, `status`, `totalAmount`) VALUES
 (1, 1003, '2025-10-09 14:36:10', 'pending', 15200),
-(2, 1003, '2025-10-09 14:58:17', 'pending', 16800),
-(3, 1002, '2025-10-10 20:55:58', 'pending', 1600),
-(4, 1002, '2025-10-10 21:00:31', 'pending', 33600),
-(5, 1002, '2025-10-10 21:27:23', 'pending', 67500),
-(6, 1002, '2025-10-10 23:13:54', 'pending', 7200);
+(2, 1003, '2025-10-09 14:58:17', 'pending', 16800);
 
 -- --------------------------------------------------------
 
@@ -181,11 +175,7 @@ CREATE TABLE `purchase_details` (
 INSERT INTO `purchase_details` (`purchaseId`, `productId`, `purchaseCount`) VALUES
 (1, 2, 5),
 (1, 6, 4),
-(2, 12, 6),
-(3, 2, 1),
-(4, 5, 21),
-(5, 4, 45),
-(6, 10, 3);
+(2, 12, 6);
 
 --
 -- ダンプしたテーブルのインデックス
@@ -273,7 +263,7 @@ ALTER TABLE `products`
 -- テーブルの AUTO_INCREMENT `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- ダンプしたテーブルの制約
