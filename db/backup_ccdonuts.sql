@@ -16,14 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `ccdonuts`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `ccdonuts` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-
-USE `ccdonuts`;
-
---
 -- Table structure for table `creditcards`
 --
 
@@ -232,14 +224,6 @@ LOCK TABLES `purchases` WRITE;
 INSERT INTO `purchases` VALUES (1,1003,'2025-10-09 14:36:10','pending',15200),(2,1003,'2025-10-09 14:58:17','pending',16800),(3,1002,'2025-10-10 20:55:58','pending',1600),(4,1002,'2025-10-10 21:00:31','pending',33600),(5,1002,'2025-10-10 21:27:23','pending',67500),(6,1002,'2025-10-10 23:13:54','pending',7200);
 /*!40000 ALTER TABLE `purchases` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'ccdonuts'
---
-
---
--- Dumping routines for database 'ccdonuts'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -250,4 +234,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-11  1:38:41
+-- Dump completed on 2025-10-18  4:03:28
